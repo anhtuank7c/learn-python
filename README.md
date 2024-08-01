@@ -430,3 +430,71 @@ age, name = name, age
 print(name) # 35
 print(age) # Tuan
 ```
+
+### Dictionary
+
+Dictionary store mappings from keys to values
+
+```python
+empty_dict = {}
+languages = {"en": "English", "vi": "Vietnamese"}
+
+# keys for dictionaries have to be immutable types to ensure key can be converted to a constant hash value for quick look-ups.
+# immutable types include ints, float, string, tuples
+valid_dict = {100: "Very good", 90: "Good", 70: "Acceptable", 60: "Under average"}
+valid_dict = {3.14: "Pi"}
+valid_dict = {"cached": "total: 10, ranked 100"}
+valid_dict = {("Tuan", 35): [10000, 3.141592654]}
+
+invalid_dict = {[100, 200]: "salary"} # TypeError: unhashable type: 'list'
+invalid_dict = {{"en": "English"}: "salary"} # TypeError: unhashable type: 'list'
+
+# look up values with []
+leaderboard = {1: ["Tuan", "Simon"], 2: ["Duong", "Chien"], 3: ["Truong"], 4: ["Son"], 5: ["Phuong"]}
+print(leaderboard[1]) # ['Tuan', 'Simon']
+print(leaderboard[3]) # ['Truong']
+
+# get all keys as an iterable with "keys()". We need to wrap the call in list() to turn it into a list
+# Note:
+# - For python version < 3.7: dictionary key ordering is not guaranteed
+# - For python version >= 3.7: dictionary items maintain the order at which they are inserted into the dictionary
+values = list(leaderboard.values())
+# [['Tuan', 'Simon'], ['Duong', 'Chien'], ['Truong'], ['Son'], ['Phuong']]
+
+# check for existence of keys in a dictionary with `in`
+languages = {
+  "en": "English",
+  "vi": "Vietnamese"
+}
+"en" in languages # True
+
+# looking up for non-existing key is a KeyError
+languages["de"] # KeyError: 'de'
+
+# use `get()` method to avoid the KeyError
+languages.get("vi") # Vietnamese
+languages.get("de") # None
+
+# `get()` method support default value when the value is missing
+languages.get("de", "German") # German
+
+# `setdefault()` inserts into a dictionary only if the given key is absent
+languages.setdefault("de", "German")
+languages.setdefault("en", "France")
+# {'en': 'English', 'vi': 'Vietnamese', 'de': 'German'}
+
+# adding to a dictionary 
+languages.update({"zh": "Chinese"}) # {'en': 'English', 'vi': 'Vietnamese', 'de': 'German', 'zh': 'Chinese'}
+languages.update({"en": "France"}) # {'en': 'France', 'vi': 'Vietnamese', 'de': 'German', 'zh': 'Chinese'}
+languages["en"] = "English" # {'en': 'English', 'vi': 'Vietnamese', 'de': 'German', 'zh': 'Chinese'}
+
+# remove keys from a dictionary with del, raise KeyError if key is absent
+del languages["zh"]
+del languages["absent_key"] # KeyError: 'absent_key'
+
+# from python 3.5 you can also use the additional unpacking options
+languages = {"en": "English", **{"zh": "Chinese"}} # {'en': 'English', 'zh': 'Chinese'}
+
+# check type
+print(type(languages)) # None<class 'dict'>
+```
