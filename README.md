@@ -322,4 +322,7 @@ print(list_cattle) # ["Wagyu", "Kobe beef", "Ohmi beef", "Hanwoo beef", "Kurobut
 
 # examine the length with `len()`
 len(list_poultry) # 8
+
+# You can put multiple data types into the same list without hassle
+list_mixed = ["Mon", 2, "Tue", 3, "Wed", 4, "Thu", 5, "Fri", 6, "Sat", True, "Sun", False]
 ```
