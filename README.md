@@ -252,7 +252,74 @@ None is None # True
 
 #### Lists
 
-```python
-day_of_weeks = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+List store sequences
 
+```python
+days_of_week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+days_of_month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+
+# append element
+days_of_week.append("Lazy")
+
+append_result = days_of_month.append(31) # None
+print(days_of_month) # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+
+# remove from the end with pop
+pop_result = days_of_month.pop() # 31
+
+print(days_of_month) # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+
+# access a list like you would any array
+days_of_month[0] # 1
+
+# look at the last element
+days_of_month[-1] # 30
+
+# looking out of bounds is an IndexError
+days_of_month[50] # IndexError: list index out of range
+
+# You can look at ranges with slice syntax.
+# the start index is included, the end index is not
+# (It's a closed/open range for you mathy types.)
+days_of_month[1:3] # return list from 1 (excluded) to 3 (included) => [2, 3]
+days_of_month[28:] # return list from 28 (excluded) to the end => [29, 30]
+days_of_month[:3] # return list from beginning to index 3 (excluded) => [1, 2, 3]
+days_of_month[::3] # return list selecting elements with a step size of 3 => [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]
+days_of_month[::-1] # return list in reverse order => [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+# make one layer deep copy using slices
+days_of_month_copy = days_of_month[:]
+
+# remove arbitrary elements from a list with `del`
+del days_of_month[0] # [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+
+# remove first occurrence of a value, raise ValueError if absent
+list_with_duplicate_value = [1, 2, 3, 4, 5, 4, 3, 8]
+list_with_duplicate_value.remove(4) # [1, 2, 3, 5, 4, 3, 8]
+list_with_duplicate_value.remove(100) # ValueError: list.remove(x): x not in list
+
+# insert an element at a specific index
+list_with_duplicate_value.insert(2, 100) # [1, 2, 100, 3, 4, 5, 4, 3, 8]
+
+# get the index of the first item found matching the argument, raise ValueError if absent
+list_item = ["Apple", "Banana", "Peach", "Guava", "Avocado", "Peach"]
+list_item.index("Peach") # 3
+list_item.index("Peachy") # ValueError: 'Peachy' is not in list
+
+# use `+` to add multiple list to make a new list, original list will not being modified
+list_poultry = ["Chickens", "Ducks", "Turkeys", "Geese", "Quails", "Pheasants", "Pigeons", "Ostriches"]
+list_cattle = ["Wagyu", "Kobe beef", "Ohmi beef", "Hanwoo beef", "Kurobuta Pork", "Olive Sanuki Wagyu"]
+list_animal = list_poultry + list_cattle + list_poultry
+
+# concatenate list with `extend`, the extender list will be modified
+list_poultry.extend(list_cattle)
+print(list_poultry)
+# ['Chickens', 'Ducks', 'Turkeys', 'Geese', 'Quails', 'Pheasants', 'Pigeons', 'Ostriches', 'Wagyu', 'Kobe beef', 'Ohmi beef', 'Hanwoo beef', 'Kurobuta Pork', 'Olive Sanuki Wagyu']
+print(list_cattle) # ["Wagyu", "Kobe beef", "Ohmi beef", "Hanwoo beef", "Kurobuta Pork", "Olive Sanuki Wagyu"]
+
+# check for existence in a list with `in`
+"Chickens" in list_poultry # True
+
+# examine the length with `len()`
+len(list_poultry) # 8
 ```
