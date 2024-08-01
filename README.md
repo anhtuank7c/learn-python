@@ -76,6 +76,9 @@ print(6 % 4) # 2
 print(4 ** 4) # 256
 print( 2 ** 7) # 128
 
+# check type
+type(12) # <class 'int'>
+type(3.14) # <class 'float'>
 ```
 
 #### String
@@ -140,6 +143,8 @@ print("Multiple\nline\n\tstring")
 # line
 #     string
 
+# check type
+type("Hello world") # <class 'str'>
 ```
 
 #### Boolean
@@ -234,6 +239,9 @@ list_three = [1, 2, 3, 4]
 
 list_three is list_one # False, list_three is not point to the same object as list_one
 list_three == list_one # True, list_three and list_one have the same value
+
+# check type
+type(True) # <class 'bool'>
 ```
 
 #### None
@@ -248,6 +256,9 @@ None  # None
 
 "etc" is None # False
 None is None # True
+
+# check type
+type(None) # <class 'NoneType'>
 ```
 
 #### Lists
@@ -325,4 +336,97 @@ len(list_poultry) # 8
 
 # You can put multiple data types into the same list without hassle
 list_mixed = ["Mon", 2, "Tue", 3, "Wed", 4, "Thu", 5, "Fri", 6, "Sat", True, "Sun", False]
+
+# unpack lists into variables
+data = [["Blog", "Service"], ["Post 01", "Post 02"], ["Author 01", "Author 02"]]
+categories, posts, authors = data
+print(categories) # ['Blog', 'Service']
+print(posts) # ['Post 01', 'Post 02']
+print(authors) # ["Author 01", "Author 02"]
+
+# extended unpacking
+*rest, authors = data
+print(rest) # [['Blog', 'Service'], ['Post 01', 'Post 02']]
+print(authors) # ['Author 01', 'Author 02']
+
+categories, *rest = data
+print(categories) # ['Blog', 'Service']
+print(rest) # [['Post 01', 'Post 02'], ['Author 01', 'Author 02']]
+
+categories, *rest, authors = data
+print(categories) # ['Blog', 'Service']
+print(rest) # [['Post 01', 'Post 02']]
+print(authors) # ['Author 01', 'Author 02']
+
+# check type
+type(list_mixed) # <class 'list'>
+```
+
+### Tuple
+
+Tuple is like lists but are immutable
+
+```python
+user_info = ("Tuan", 35, "Halong Bay, Quang Ninh, Vietnam", True)
+user_info[0] # Tuan
+user_info[0] = "Quan" # TypeError: 'tuple' object does not support item assignment
+
+# check type
+# tuple of needs a comma if have elements
+type(("Tuan", )) # <class 'tuple'>
+type(("Tuan", True)) # <class 'tuple'>
+
+# empty tuple don't need comma
+type(()) # <class 'tuple'>
+
+# without comma, it will never consider as tuple
+type(("Tuan")) # <class 'str'>
+type((1)) # <class 'int'>
+type((3.14)) # <class 'float'>
+type((True)) # <class 'bool'>
+
+# you can do most of the list operations on tuples too
+len(("Tuan", True)) # 2
+
+book = ("Harry Porter", 2002, "Published")
+author = ("JK Rowling", 1965, "Female", "England")
+book_author = book + author # ('Harry Porter', 2002, 'Published', 'JK Rowling', 1965, 'Female', 'England')
+book[:2] # ('Harry Porter', 2002)
+book[:-1] # ('Harry Porter',)
+book[::2] # ('Harry Porter', 'Published')
+book[2:] # ('Published',)
+book[1:2] # (2002,)
+"England" in author # True
+
+# You cannot extend a tuple
+author.extend(book) # AttributeError: 'tuple' object has no attribute 'extend'
+
+# Unpack tuples into variables
+name, published_year, status = book
+
+# extended unpacking
+address = ((20.951826295025008, 107.01421196125972), "Halong Bay, Quang Ninh, Vietnam", 200000, "+84123456789")
+
+geopoint, *rest, phone = address
+print(geopoint) # (20.951826295025008, 107.01421196125972)
+print(rest) # ['Halong Bay, Quang Ninh, Vietnam', 200000]
+print(phone) # +84123456789
+
+*rest, phone = address
+print(rest) # [(20.951826295025008, 107.01421196125972), 'Halong Bay, Quang Ninh, Vietnam', 200000]
+print(phone) # +84123456789
+
+geopoint, *rest = address
+print(geopoint) # (20.951826295025008, 107.01421196125972)
+print(rest) # ['Halong Bay, Quang Ninh, Vietnam', 200000, '+84123456789']
+
+# tuple are created by default if you leave out the parentheses
+name, age = "Tuan", 35 # tuple Tuan, 35 is unpacked into variables name, age
+print(name) # Tuan
+print(age) # 35
+
+# now look how easy it is to swap two values
+age, name = name, age
+print(name) # 35
+print(age) # Tuan
 ```
