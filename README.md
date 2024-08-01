@@ -8,6 +8,11 @@ I use this repo to track all the lessons I learned about python
 * https://docs.python.org/3/tutorial/index.html
 * https://www.youtube.com/watch?v=eWRfhZUzrAc&t=386s
 
+## Online playground tools
+
+* https://programiz.pro/ide/python
+* https://replit.com
+
 ## Main content
 
 ### Comment
