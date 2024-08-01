@@ -501,5 +501,5 @@ del languages["absent_key"] # KeyError: 'absent_key'
 languages = {"en": "English", **{"zh": "Chinese"}} # {'en': 'English', 'zh': 'Chinese'}
 
 # check type
-print(type(languages)) # None<class 'dict'>
+print(type(languages)) # <class 'dict'>
 ```
