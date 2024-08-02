@@ -373,6 +373,12 @@ print(categories) # ['Blog', 'Service']
 print(rest) # [['Post 01', 'Post 02']]
 print(authors) # ['Author 01', 'Author 02']
 
+# pad string
+name = 'TUAN'
+print(f'{name:_<10}') # TUAN______
+print(f'{name:_>10}') # ______TUAN
+print(f'{name:_^10}') # ___TUAN___
+
 # check type
 type(list_mixed) # <class 'list'>
 ```
