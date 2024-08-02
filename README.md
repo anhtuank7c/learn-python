@@ -89,7 +89,12 @@ print(6 % 4) # 2
 
 # use ** to calculate the powers
 print(4 ** 4) # 256
-print( 2 ** 7) # 128
+print(f'4 ** 4 = {4 ** 4}') # 4 ** 4 = 256
+print(f'{4 ** 4 = }') # 4 ** 4 = 256
+
+print(2 ** 7) # 128
+print(f'2 ** 7 = {2 ** 7}') # 2 ** 7 = 128
+print(f'{2 ** 7 = }') # 2 ** 7 = 128
 
 # check type
 type(12) # <class 'int'>
@@ -639,5 +644,10 @@ days_of_week.clean() # AttributeError: 'frozenset' object has no attribute 'clea
 days_of_week.update(["Wed"]) # AttributeError: 'frozenset' object has no attribute 'update'
 days_of_week.add("Wed") # AttributeError
 days_of_week.remove("Wed") # AttributeError
+```
+
+## Variables
+
+```python
 
 ```
