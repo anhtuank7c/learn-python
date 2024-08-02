@@ -38,6 +38,10 @@ There are 2 kind of numbers in Python: integer, float
 # -2, -1, 0, 1, 2, 3, 4, 5
 tax = 20
 
+# you can use underscore to make readable number
+salary = 100_000_000_000 # 1000000000
+income = 88_000_000.123_456 # 88000000.123456
+
 # float
 # -1.25, -1.0, --0.5, 0.0, 0.5, 1.0, 1.25
 buy_price = 1.68
