@@ -544,7 +544,8 @@ some_set = {1, 1, 2, 3, 2, 5} # {1, 2, 3, 5}
 
 days_of_week = {"Mon", "Tue"} # {'Tue', 'Mon'}
 
-# ints, floats, string and tuples, frozenset can be using within set
+# Note elements of a set have to be immutable.
+# Immutable types include ints, floats, strings, tuples, frozensets.
 # other data types will raise error TypeError: unhashable type
 new_set = {[1, 2]} # TypeError: unhashable type: 'list'
 new_set = {{"foo": "bar"}} # TypeError: unhashable type: 'dict'
@@ -646,8 +647,151 @@ days_of_week.add("Wed") # AttributeError
 days_of_week.remove("Wed") # AttributeError
 ```
 
-## Variables
+### Variables
+
+Variable in Python is a name that refers to a value. Python is dynamically typed which mean you don't need to declare the variable type explicitely.
 
 ```python
+########################
+# implicit declaration
+########################
+# int
+age = 35
+# float
+pi = 3.14
+# string
+name = "Tuan"
+# boolean
+sold_out = True
+# tuple
+person = ("Tuan", 35, "Male", "Halong Bay, Quang Ninh, Vietnam")
+# list
+stables = ["Gothenburg, Sweden", "Paris, France", "Hanoi, Vietnam"]
+# dict
+languages = {"en": "English", "vi": "Vietnam"}
+# set
+product_ids = {"sku_01", "sku_02", "sku_01", "sku_03"}
 
+########################
+# explicit declaration
+########################
+age: int = 35
+pi: float = 3.14
+name: str = "Tuan"
+sold_out: bool = True
+
+########################
+# variable scope
+# local scope: variable declared inside a function are local to that function
+# enclosing scope: variable in the local scope of enclosing function (nonlocal)
+# global scope: variable declared at the top level of a script or module, or declared global using `global` keyword
+# built-in scope: variable preassigned in the built-in namespace (e.g., `len`, `range`)
+########################
+# global variable
+age = 30
+
+def outer_function():
+  # enclosing variable
+  age = 50
+
+  def inner_function():
+    # local variable
+    age = 100
+
+    # global variable
+    global name
+    name = "Tuan"
+
+    print(f'{age = }') # 100
+
+  inner_function()
+  print(f'{age = }') # 50
+
+outer_function()
+print(f'{age = }') # 30
+print(f'{name = }') # Tuan
+
+# `global` keyword allows you to modify a global variable inside a function
+today = "Monday"
+
+def modify_global():
+  global today
+  today = "Tuesday"
+  print(f'{today = }') # today = 'Tuesday'
+
+modify_global()
+print(f'{today = }') # today = 'Tuesday'
+
+# `nonlocal` keyword allows you to modify a variable in the enclosing (non-global) scope
+def outer_func():
+  name = "Tuan"
+
+  def inner_func():
+    nonlocal name
+    name = "Simon"
+    print(f'{name = }') # name = 'Simon'
+
+  inner_func()
+  print(f'{name = }') # name = 'Simon'
+
+outer_func()
+
+########################
+# dynamic typing and type checking
+# Python is dynamically typed, meaning that variable types are determined at runtime, variables can change type
+########################
+x = 10
+print(type(x)) # <class 'int'>
+
+x = "Hello world"
+print(type(x)) # <class 'str'>
+
+# dynamic typing offers flexibility, it can easily lead to runtime errors if not managed carefully (like Javascript).
+# to enhance type safety, you can use type hints and tools like `mypy` for static type checking.
+# don't forget to install mypy extension for your IDE for static type checking: https://www.mypy-lang.org
+# vscode extension https://marketplace.visualstudio.com/items?itemName=ms-python.mypy-type-checker
+# IntelliJ IDEA, PyCharm https://plugins.jetbrains.com/plugin/11086-mypy
+def greeting(name: str) -> str:
+  return f'Hello {name}'
+print(greeting("Tuan")) # Hello Tuan
+print(greeting(1123)) # Mypy raise thise: Argument 1 to "greeting" has incompatible type "int"; expected "str"
+
+# recommended to use pipx over pip: https://pipx.pypa.io/stable
+# `pip install mypy` or `pipx install mypy`
+# and run: `mypy your_file.py`
+
+from typing import Tuple, List, Dict, Set
+
+Person = Tuple[str, int, str, str]
+person: Person = ("Tuan", 35, "Male", "Halong Bay, Quang Ninh, Vietnam")
+print(person)
+
+names: List[str] = ["Tuan", "Simon", "Duong", "Son"]
+print(names)
+
+scores: Dict[str, int] = {"Tuan": 10, "Simon": 9, "Duong": 8, "Son": 7}
+print(scores)
+
+days_of_week: Set[str] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
+print(days_of_week)
+
+########################
+# constant
+# while Python doesn't have a built-in constant type
+# by convention, constant are written in uppercase letters and are typically defined
+# at the module level
+########################
+PI = 3.141592654
+MAX_CONNECTIONS = 500
+LOGS_LEVEL = "debug"
+LOGS_SIZE = 5 * 1000 ** 2 #MB
+
+# immutable types includes: int, float, str, tulple, frozenset
+# mutable types inclide: list, dict, set
+
+# variable identifier must follow these rules
+# - must start with a letter [a-z A-Z] or an underscore `_`
+# - can be followed by letter, digits (0-9) or underscore `_`
+# - case-sensitive (e.g myVar and myvar are different variables)
+# - cannot be a reversed keyword (e.g if, while, for)
 ```
