@@ -349,7 +349,7 @@ print(categories) # ['Blog', 'Service']
 print(posts) # ['Post 01', 'Post 02']
 print(authors) # ["Author 01", "Author 02"]
 
-# extended unpacking
+# extended unpacking (or spreading)
 *rest, authors = data
 print(rest) # [['Blog', 'Service'], ['Post 01', 'Post 02']]
 print(authors) # ['Author 01', 'Author 02']
@@ -502,4 +502,126 @@ languages = {"en": "English", **{"zh": "Chinese"}} # {'en': 'English', 'zh': 'Ch
 
 # check type
 print(type(languages)) # <class 'dict'>
+```
+
+### Set
+
+Set is an unordered collection of unique and immutable elements.
+
+Set is commonly used for membership testing, eliminating duplicate entries, and performing mathematical set operation like `union`, `intersection`, and `difference`.
+
+```python
+# init an empty set
+empty_set = set()
+
+# init a set from a list
+list_duplicated_values = [1, 1, 2, 2, 3, 3]
+unique_values = set(list_duplicated_values) # {1, 2, 3}
+
+# init a set with a bunch of values
+some_set = {1, 1, 2, 3, 2, 5} # {1, 2, 3, 5}
+
+days_of_week = {"Mon", "Tue"} # {'Tue', 'Mon'}
+
+# ints, floats, string and tuples, frozenset can be using within set
+# other data types will raise error TypeError: unhashable type
+new_set = {[1, 2]} # TypeError: unhashable type: 'list'
+new_set = {{"foo": "bar"}} # TypeError: unhashable type: 'dict'
+
+# tuple
+new_set = {("Wed", "Tue")} # {('Wed', 'Tue')}
+# string
+new_set = {"Wed", "Tue"} # {'Wed', 'Tue'}
+# int
+new_set = {1, 2} # {1, 2}
+# float
+new_set = {3.14, 1,234} # {3.14, 234, 1}
+# frozenset
+new_set = {frozenset([1, 2, 3])} # {frozenset({1, 2, 3})}
+
+mixed_set = {1, 2.2, "three", (4, 5), frozenset([6, 7])}
+
+# add elements, duplicate entries will automatically eliminated
+days_of_week.add("Wed") # {'Wed', 'Tue', 'Mon'}
+days_of_week.add("Wed") # {'Wed', 'Tue', 'Mon'}
+
+# remove elements using `remove()` or `discard()` methods.
+# `remove()` will raise KeyError if remove an absent element
+# `discard()` will never raise error
+days_of_week.remove("Wed") #{'Tue', 'Mon'}
+days_of_week.remove("Wed_asjdhas") # KeyError: 'Wed_asjdhas'
+
+days_of_week.discard("Tue") #{'Mon'}
+days_of_week.discard("Wed_asjdhas") # Nothing happen
+
+# union is the way to merge 2 sets and also remove the duplicates
+# use `union()` method or `|` operator
+days_of_week_one = {"Mon", "Tue", "Web"}
+days_of_week_two = {"Web", "Thu", "Fri", "Sat", "Sun"}
+days_of_week = days_of_week_one.union(days_of_week_two) # {'Web', 'Sat', 'Mon', 'Sun', 'Fri', 'Tue', 'Thu'}
+
+days_of_week = days_of_week_one | days_of_week_two # {'Web', 'Sat', 'Mon', 'Sun', 'Fri', 'Tue', 'Thu'}
+
+# intersection is the way to find elements that found in both sets
+# use `intersection()` or `&` operator
+days_of_week_one = {"Mon", "Tue", "Web"}
+days_of_week_two = {"Web", "Thu", "Fri", "Sat", "Sun"}
+
+days_appeared_in_both_sets = days_of_week_one.intersection(days_of_week_two) # {'Web'}
+days_appeared_in_both_sets = days_of_week_one & days_of_week_two # {'Web'}
+
+# difference is the way to find elements that appear in the first set but not in the second
+# use `difference()` method or `-` operator
+days_of_week_one = {"Mon", "Tue", "Web"}
+days_of_week_two = {"Web", "Thu", "Fri", "Sat", "Sun"}
+
+days_difference_from_set_two = days_of_week_one.difference(days_of_week_two) # {'Tue', 'Mon'}
+days_difference_from_set_two = days_of_week_one - days_of_week_two # {'Tue', 'Mon'}
+
+# symmetric difference between two sets contains elements that are in either of the sets but not in both.
+# use `symmetric_difference()` or `^` operator
+days_of_week_one = {"Mon", "Tue", "Web"}
+days_of_week_two = {"Web", "Thu", "Fri", "Sat", "Sun"}
+
+symmetric_difference = days_of_week_one.symmetric_difference(days_of_week_two) # {'Fri', 'Mon', 'Sat', 'Tue', 'Thu', 'Sun'}
+symmetric_difference = days_of_week_one ^ days_of_week_two # {'Fri', 'Mon', 'Sat', 'Tue', 'Thu', 'Sun'}
+
+# a set is a subset of another if all elements of the first set are in the second
+# use `issubset()` or `<=` operator
+days_of_week = {2, 3, 4, 5, 6, 7, 8}
+days_of_month = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30}
+
+days_of_week.issubset(days_of_month) # True
+days_of_week <= days_of_month # True
+
+# a set is a superset of another if it contains all elements of the second set.
+# use `issuperset()` or `>=` operator
+days_of_month.issuperset(days_of_week)
+days_of_month >= days_of_week
+
+# Make a one layer deep copy using the `copy()` method
+days_of_week_copy = days_of_week.copy()
+
+# remove all elements from a set using the `clear()` method
+days_of_week.clear() # set()
+
+# add multiple elements to a set using the `update()` method
+days_of_week = {2, 3, 4, 5, 6, 7, 8}
+days_of_week.update([1, 9, 10, 11]) # {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+
+# check for existence in a set with `in`
+2 in days_of_week # True
+
+# a frozen set is an immutable version of a set.
+# elements cannot be added or removed after creation.
+# using `frozenset()` method
+new_set = {"Mon", "Tue"}
+new_frozenset = frozenset(new_set)
+
+days_of_week = frozenset(["Mon", "Tue"])
+days_of_week.clean() # AttributeError: 'frozenset' object has no attribute 'clean'
+days_of_week.update(["Wed"]) # AttributeError: 'frozenset' object has no attribute 'update'
+days_of_week.add("Wed") # AttributeError
+days_of_week.remove("Wed") # AttributeError
+
 ```
