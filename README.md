@@ -652,6 +652,12 @@ days_of_week.remove("Wed") # AttributeError
 Variable in Python is a name that refers to a value. Python is dynamically typed which mean you don't need to declare the variable type explicitely.
 
 ```python
+# variable identifier must follow these rules
+# - must start with a letter [a-z A-Z] or an underscore `_`
+# - can be followed by letter, digits (0-9) or underscore `_`
+# - case-sensitive (e.g myVar and myvar are different variables)
+# - cannot be a reversed keyword (e.g if, while, for)
+
 ########################
 # implicit declaration
 ########################
@@ -788,10 +794,4 @@ LOGS_SIZE = 5 * 1000 ** 2 #MB
 
 # immutable types includes: int, float, str, tulple, frozenset
 # mutable types inclide: list, dict, set
-
-# variable identifier must follow these rules
-# - must start with a letter [a-z A-Z] or an underscore `_`
-# - can be followed by letter, digits (0-9) or underscore `_`
-# - case-sensitive (e.g myVar and myvar are different variables)
-# - cannot be a reversed keyword (e.g if, while, for)
 ```
