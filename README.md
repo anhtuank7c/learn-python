@@ -377,7 +377,7 @@ print(authors) # ['Author 01', 'Author 02']
 type(list_mixed) # <class 'list'>
 ```
 
-### Tuple
+#### Tuple
 
 Tuple is like lists but are immutable
 
@@ -446,7 +446,7 @@ print(name) # 35
 print(age) # Tuan
 ```
 
-### Dictionary
+#### Dictionary
 
 Dictionary store mappings from keys to values
 
@@ -514,7 +514,7 @@ languages = {"en": "English", **{"zh": "Chinese"}} # {'en': 'English', 'zh': 'Ch
 print(type(languages)) # <class 'dict'>
 ```
 
-### Set
+#### Set
 
 Set is an unordered collection of unique and immutable elements.
 
