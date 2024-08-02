@@ -794,4 +794,7 @@ LOGS_SIZE = 5 * 1000 ** 2 #MB
 
 # immutable types includes: int, float, str, tulple, frozenset
 # mutable types inclide: list, dict, set
+
+# declare multiple variables at once by adding commas
+name, age, address = "Tuan", 35, "Halong Bay, Quang Ninh, Vietnam"
 ```
