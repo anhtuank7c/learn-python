@@ -40,11 +40,17 @@ tax = 20
 
 # you can use underscore to make readable number
 salary = 100_000_000_000 # 1000000000
-income = 88_000_000.123_456 # 88000000.123456
+print(f"{salary: _}") # 100_000_000_000
+print(f"{salary: ,}") # 100,000,000,000
 
 # float
 # -1.25, -1.0, --0.5, 0.0, 0.5, 1.0, 1.25
 buy_price = 1.68
+
+# you can use underscore to make readable number
+income = 88_000_000.123_456 # 88000000.123456
+print(f"{income: _.2f}") # 88_000_000.12
+print(f"{income: ,.6f}") # 88,000,000.123456
 
 # you can declare multiple variables on a single line, separated by commas
 sell_price, sold_amount = 1.99, 2123
