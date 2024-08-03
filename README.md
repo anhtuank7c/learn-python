@@ -96,6 +96,10 @@ print(2 ** 7) # 128
 print(f'2 ** 7 = {2 ** 7}') # 2 ** 7 = 128
 print(f'{2 ** 7 = }') # 2 ** 7 = 128
 
+# casting data using `int(), float()` methods
+int("123") # <class 'int'>
+float("123.123") # <class 'float'>
+
 # check type
 type(12) # <class 'int'>
 type(3.14) # <class 'float'>
@@ -168,6 +172,11 @@ print("Multiple\nline\n\tstring")
 # Multiple
 # line
 #     string
+
+# casting data using `str()` method
+str(123) # <class 'str'>
+str(123.123) # <class 'str'>
+str("123") # <class 'str'>
 
 # check type
 type("Hello world") # <class 'str'>
@@ -1135,3 +1144,7 @@ def shipping(address: str) -> bool:
 shipping("Halong Bay, Quang Ninh, Vietnam")
 shipping(address = "Halong Bay, Quang Ninh, Vietnam")
 ```
+
+#### Lambda
+
+
