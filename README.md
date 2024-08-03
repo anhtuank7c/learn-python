@@ -1146,6 +1146,46 @@ shipping("Halong Bay, Quang Ninh, Vietnam")
 shipping(address = "Halong Bay, Quang Ninh, Vietnam")
 ```
 
-#### Lambda
+#### Lambda/anonymous functions
 
+An anonymous function in Python is a function without a name. It can be immediately invoked or stored in a variable.
 
+Anonymous functions in Python are also known as lambda functions.
+
+```python
+# syntax
+lambda parameter(s) : expression
+
+price = 1.99
+
+# note that lambda has no name, we assign lambda function to variable revenue
+# so that we can easily invoke the function through the variable.
+revenue = lambda quantity: quantity * price
+
+revenue(10) # 19.9
+
+# Lambda functions can take any number of arguments:
+sum = lambda a, b: a + b
+sum(2, 3)
+
+# lamda function does not support type annotation
+sum = lambda a: int, b: int: a + b # SyntaxError: invalid syntax
+sum(2, 3)
+
+# you can invoke lambda function directly like this
+(lambda a,b : a + b)(2, 5) #7
+
+# lambda function always return data without `return` keyword
+# it will return None by default if you don't provide any data
+print((lambda name : print(f'Hi {name}'))("Tuan")) # Hi Tuan, None
+
+# when to use `lambda` over `function`?
+# you want to use function just once, especially useful when working with `map, reduce, filter`
+# you need a short function which never consider to reuse
+# you don't want to write explicit function
+numbers = [1, 3, 5, 7, 9]
+double_result = map(lambda value: value + value, numbers)
+
+print(list(double_result))
+# [2, 6, 10, 14, 18]
+```
