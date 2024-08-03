@@ -798,3 +798,340 @@ LOGS_SIZE = 5 * 1000 ** 2 #MB
 # declare multiple variables at once by adding commas
 name, age, address = "Tuan", 35, "Halong Bay, Quang Ninh, Vietnam"
 ```
+
+### Control Flow & Iterables
+
+#### Conditional statements
+
+Conditional statements allow you to execute different blocks of code based on certain conditions.
+
+```python
+# if
+is_raining = True
+if is_raining:
+  print("It's raining")
+
+# if-else
+humidity = 88
+if humidity > 80:
+  print("Possibility to rain")
+else:
+  print("No chance to rain")
+
+# if-elif-else
+if humidity >= 90:
+  print("Surely rain")
+elif humidity >= 80:
+  print("Possibility to rain")
+else:
+  print("No chance to rain")
+
+# switch-case
+# Python does not have a built-in switch-case statement like other languages.
+# However you can archive similar functionality using different approaches.
+# 1. use if-elif-else statement
+# 2. use dict
+# 3. use lambda function in dict
+# 4. use match-case (python 3.10+)
+
+# solution 1: if-elif-else
+def switch_case(value):
+  if value == 1:
+    return "case 01"
+  elif value == 2:
+    return "case 02"
+  else:
+    return "default case"
+
+switch_case(1)
+switch_case(2)
+switch_case("Hi")
+
+# solution 2: dict
+def case_1():
+  return "case 01"
+def case_2():
+  return "case 02"
+def case_default():
+  return "default case"
+switch = {
+  1: case_1,
+  2: case_2
+}
+def switch_case(value):
+  return switch.get(value, case_default)()
+
+switch_case(1)
+switch_case(2)
+switch_case("Hi")
+
+# solution 3: use lambda function in dict
+switch = {
+  1: lambda: "case 01",
+  2: lambda: "case 02",
+}
+def switch_case(value):
+  return switch.get(value, lambda: "default case")()
+
+switch_case(1)
+switch_case(2)
+switch_case("Hi")
+
+# solution 4: match-case (python 3.10+)
+def switch_case(value):
+  match value:
+    case 1:
+      return "Case 1"
+    case 2:
+      return "Case 2"
+    case 3 | 4:
+      return "Case 3 and 4"
+    case _:
+      return "Default case"
+
+print(switch_case(1))  # Case 1
+print(switch_case(3))  # Case 3 and 4
+print(switch_case(4))  # Case 3 and 4
+print(switch_case(5))  # Default case
+
+```
+
+#### Loop statements
+
+Loop statements allow you to repeat a block of code multiple times
+
+```python
+# for: Iterates over a sequence (such as a list, tuple, dictionary, set, or string) and executes a block of code for each item.
+fruits = ["Apple", "Peach", "Pear", "Banana", "Kiwi"]
+for fruit in fruits:
+  print(fruit)
+
+leaderboard = {1: "Tuan", 2: "Simon", 3: "Duong"}
+for key in leaderboard.keys():
+  print(f'{key}: {leaderboard[key]}')
+# 1: Tuan
+# 2: Simon
+# 3: Duong
+
+unique_numbers = {1, 2, 3, 4, 5, 1, 3, 5}
+for value in unique_numbers:
+  print(f'{value}')
+# 1
+# 2
+# 3
+# 4
+# 5
+
+# use `enumerate` method to create an iterator that produces tuples containing an index and the corresponding element
+# from the iterable so you can access index and element
+for index, value in enumerate(unique_numbers):
+  print(f'{index}: {value}')
+# 0: 1
+# 1: 2
+# 2: 3
+# 3: 4
+# 4: 5
+
+# `range()` returns an iterable of numbers from 0 up to (but excluding) the given number
+for i in range(4):
+  print(i) # 0 1 2 3
+
+for i in range(5, 10):
+  print(i) # 5 6 7 8 9
+
+for i in range(5, 10, 2):
+  print(i) # 5 7 9
+
+# loop over a list to retrieve both the index and the value of each list item
+# use `enumerate` method
+for index, value in enumerate(["dog", "cat", "mouse"]):
+  print(f'{index}: {value}')
+# 0: dog
+# 1: cat
+# 2: mouse
+
+# while repeats a block of code as long as a specified condition is true.
+count = 0
+while count < 5: # continue if this condition still True
+  print(count) # 0 1 2 3 4
+  count += 1 # shorthand for count = count + 1
+
+# Python offers a fundamental abstraction called the Iterable.
+# An iterable is an object that can be treated as a sequence.
+# The object returned by the range function is an iterable
+languages = {"en": "English", "vi": "Vietnam"}
+languages_iterator = languages.keys() # dict_keys(['en', 'vi'])
+
+# we can loop over it
+for langKey in languages_iterator:
+  print(langKey)
+
+# however we cannot address elements by index, will raise TypeError
+languages_iterator["en"] # TypeError: 'dict_keys' object is not subscriptable
+
+# an iterable is an object that knows how to create an iterable
+languages_iterator = iter(languages)
+
+# our iterable is an object that can remember the state as we traverse through
+# it. We get the next object with `next()`
+next(languages_iterator) # en
+next(languages_iterator) # vi
+
+# after the iterable has returned all of its data, it raises a StopIteration exception
+next(languages_iterator) # StopIteration
+
+# we can also loop over iterable, infact `for` does it implicitly
+for lang in iter(languages):
+  print(lang) # en, vi
+
+# we can grab all the elements of an iterable or iterator by call of `list()`
+days_of_week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+days_iterator = iter(days_of_week)
+list(days_iterator) # ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+list(days_iterator) # [] because state is saved
+```
+
+#### Control Statements within Loops
+
+```python
+# break: exits the nearest enclosing loop immediately
+for value in [1, 2, 3, 4]:
+  if value == 3:
+    break
+  print(value) # 1, 2
+
+count = 0
+while True:
+  count += 1
+  print(count) # 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  if count == 10:
+    break
+
+# continue: skip the rest of the code inside the current loop iteration and proceeds to the next iteration
+# does continue work with while???
+for i in range(10):
+  if i <= 5:
+    print(i) # 0, 1, 2, 3, 4, 5
+    continue
+  break
+
+# pass: does nothing and is used as a placeholder for future code
+# Empty code is not allowed in loops, function definitions, class definitions, or in if statements.
+for i in range(10):
+  pass # Todo
+
+if paid_successfully:
+  pass # Todo
+
+while valid:
+  pass # Todo
+
+def paid(amount: int, currency: str) -> bool:
+  pass # Todo
+  return True
+```
+
+#### Functions
+
+A function is a block of code which only runs when it is called
+
+```python
+def no_args_func():
+  print("Hi")
+
+# invoke function
+no_args_func()
+
+def args_func(name, age):
+  print(f'{name}, {age}')
+
+# invoke function with args
+args_func("Tuan", 35)
+# you can also send arguments with the key = value syntax to make it easier to follow
+args_func(name = "Tuan", age = 35)
+
+# if you want to passing only positional-only arguments place `, /` at the end of arguments list
+# means need to use positional arguments only when invoking function
+def args_func(name, age, /):
+  print(f'{name}: {age}')
+
+args_func("Tuan", 35) # Tuan: 35
+args_func(name = "Tuan", age = 35) # TypeError: args_func() takes 0 positional arguments but 2 were given
+
+# The opposite of positional arguments is keyword-only arguments
+# place `* ,` before arguments
+# means need to use keyword arguments only when invoking function
+def args_func(*, name, age):
+  print(f'{name}: {age}')
+
+args_func("Tuan", 35) # TypeError: args_func() takes 0 positional arguments but 2 were given
+args_func(name = "Tuan", age = 35) # Tuan: 35
+
+# you can even make it more complex by combining positional-only with keyword-only arguments
+# I don't prefer to make the complex thing but just a case you want to known
+def args_func(name: str, /, age: int, *, address: str) -> None:
+  print(f'{name}, {age}, {address}')
+
+# positional-only `/` always in front of keyword-only `*` arguments
+args_func('John', 30, address='New York') # Valid
+args_func(name = 'John', age = 30, 'New York') # invalid `name` keyword which should have value only, and `address` which should be here
+
+# defind a function explicitly
+def args_func(name: str, age: int) -> str:
+  return f'{name}, {age}'
+
+args_func("Tuan", 35)
+args_func(name = "Tuan", age = 35)
+
+# you can also set default value for arguments by assign `= value`
+# default argument must always go after non-default argument
+def args_func(value: int, decimal: bool = True) -> str:
+  return f'{value}, {decimal}'
+
+# this function will raise error: SyntaxError: parameter without a default follows parameter with a default
+def args_func(value: int = 100, decimal: bool) -> str:
+  return f'{value}, {decimal}'
+
+args_func(1011011)
+args_func(1011011, True)
+args_func(value = 1011011, decimal = True)
+
+# use arbitrary keyword arguments `**args`
+# if you don't know how many arguments that will be passed into your function
+# add `**` before the parameter name in the function definition
+def console_log(**logs):
+  print(logs)
+
+console_log(name="John", age=30, city="New York") # {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log(company = "SpaceX", avg_salary = 5000) # {'company': 'SpaceX', 'avg_salary': 5000}
+
+# Arbitrary argument must comes after non-arbitrary argument
+def console_log(level = 'debug', **logs) -> None:
+  print(f'{level}: {logs}')
+
+console_log(name="John", age=30, city="New York") # debug: {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log('warning',name="John", age=30, city="New York") # warning: {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log(level = 'error',name="John", age=30, city="New York") # error: {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log(company = "SpaceX", avg_salary = 5000) # debug: {'company': 'SpaceX', 'avg_salary': 5000}
+
+def console_log(message: str, level = 'debug', **logs) -> None:
+  print(f'{level}: {message} ({logs})')
+
+console_log(message = "Something goes wrong", name="John", age=30, city="New York") # debug: Something goes wrong ({'name': 'John', 'age': 30, 'city': 'New York'})
+console_log('warning',name="John", age=30, city="New York") # debug: warning ({'name': 'John', 'age': 30, 'city': 'New York'})
+console_log(level = 'error', message = "Something goes wrong", name="John", age=30, city="New York") # error: Something goes wrong ({'name': 'John', 'age': 30, 'city': 'New York'})
+console_log("Something goes wrong", company = "SpaceX", avg_salary = 5000) # debug: Something goes wrong ({'company': 'SpaceX', 'avg_salary': 5000})
+
+# if you try to but arbitrary argument in front of non-arbitrary arguments
+# it will raise SyntaxError: arguments cannot follow var-keyword argument
+def console_log(**logs, level = 'debug'): # SyntaxError
+  print(f'{level}: {logs}')
+
+# as I mentioned from above, we use `pass` keyword for placeholder
+def shipping(address: str) -> bool:
+  pass # Todo
+  return True
+
+shipping("Halong Bay, Quang Ninh, Vietnam")
+shipping(address = "Halong Bay, Quang Ninh, Vietnam")
+```
