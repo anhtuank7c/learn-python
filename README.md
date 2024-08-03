@@ -1278,11 +1278,11 @@ dir(greeting)
 
 #### Module priority
 
-Python prefer local module over modules comes from different place.
+Python prefer local module over modules come from different places (included Python built-in modules)
 
-If you have `math.py` module placed in the same place with your current script
+If you have `math.py` module in the same place with your current script
 
-It will me loaded instead of the built-in Python module
+It will be loaded instead of the built-in Python module
 
 ```python
 # math.py
@@ -1295,3 +1295,5 @@ import math # this is math.py because it have higher priority
 
 print(math.add(1, 2))
 ```
+
+### Classes
