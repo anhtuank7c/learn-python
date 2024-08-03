@@ -1206,8 +1206,8 @@ Simply create a file with a `.py` extension.
 def add(amount: int, tax: float, address: str) -> str:
   return f'tranId: random_id, {amount =}, {tax =}, {address =}'
 
-def update(transId: str, **rest) -> str:
-  return f'tranId: {transId} {list(rest.keys()) =}, {list(rest.values()) =}'
+def update(transId: str, amount: int, tax: float, address: str) -> str:
+  return f'updated. tranId: {transId}, {amount =}, {tax =}, {address =}'
 ```
 
 #### Using a module
@@ -1217,8 +1217,8 @@ To use a module, import it into your script using the `import` statement
 ```python
 import transaction
 
-print(add(10, 20.0, "nowhere"))
-print(update("011010", 10, 20.0, "nowhere"))
+print(transaction.add(10, 20.0, "nowhere"))
+print(transaction.update("011010", 10, 20.0, "nowhere"))
 ```
 
 #### Importing specific items
