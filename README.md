@@ -1189,3 +1189,108 @@ double_result = map(lambda value: value + value, numbers)
 print(list(double_result))
 # [2, 6, 10, 14, 18]
 ```
+
+### Modules
+
+A Python module is a file containing Python code. It can define functions, classes and include runnable code.
+
+Modules allow you to organize your code into manageable parts and reuse it across different programs.
+
+#### Creating a module
+
+Simply create a file with a `.py` extension.
+
+```python
+# transaction.py
+
+def add(amount: int, tax: float, address: str) -> str:
+  return f'tranId: random_id, {amount =}, {tax =}, {address =}'
+
+def update(transId: str, **rest) -> str:
+  return f'tranId: {transId} {list(rest.keys()) =}, {list(rest.values()) =}'
+```
+
+#### Using a module
+
+To use a module, import it into your script using the `import` statement
+
+```python
+import transaction
+
+print(add(10, 20.0, "nowhere"))
+print(update("011010", 10, 20.0, "nowhere"))
+```
+
+#### Importing specific items
+
+You can import specific functions or classes from a module
+
+```python
+from transaction import add
+
+print(add(10, 20.0, "nowhere"))
+```
+
+You can also give an imported item an alias
+
+```python
+from transaction import update as modify
+
+print(modify("011010", 10, 20.0, "nowhere"))
+```
+
+#### The `__name__` and `__main__`
+
+In Python, the special variable `__name__` is used to determine if a module is being run as the main program or if it has been imported into another module
+
+```python
+# greeting.py
+
+def greet(name: str) -> None:
+  print(f'Hello {name}')
+
+if __name__ == "__main__":
+  greet("Main")
+
+# When you execute greeting.py module, it will print Hello Main
+# However if you import greeting.py from another script, the code inside the
+# `if __name__ == "__main__":` block does not execute
+```
+
+#### Find you which functions and attributes are defined in a module
+
+```python
+# greeting.py
+age = 10
+def greet(name: str) -> None:
+  print(f'Hello {name}')
+
+if __name__ == "__main__":
+  greet("Main")
+
+# main.py
+import greeting
+
+dir(greeting)
+# ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'age', 'greet']
+```
+
+#### Module priority
+
+Python prefer local module over modules comes from different place.
+
+If you have `math.py` module placed in the same place with your current script
+
+It will me loaded instead of the built-in Python module
+
+```python
+# math.py
+
+def add(a: int, b: int) -> int:
+  return a + b
+
+# main.py
+import math # this is math.py because it have higher priority
+
+print(math.add(1, 2))
+```
