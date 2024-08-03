@@ -1223,12 +1223,13 @@ print(transaction.update("011010", 10, 20.0, "nowhere"))
 
 #### Importing specific items
 
-You can import specific functions or classes from a module
+You can import specific functions or classes from a module, separated by commas
 
 ```python
-from transaction import add
+from transaction import add, update
 
 print(add(10, 20.0, "nowhere"))
+print(update("011010", 10, 20.0, "nowhere"))
 ```
 
 You can also give an imported item an alias
