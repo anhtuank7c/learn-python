@@ -475,7 +475,8 @@ Dictionary store mappings from keys to values
 empty_dict = {}
 languages = {"en": "English", "vi": "Vietnamese"}
 
-# keys for dictionaries have to be immutable types to ensure key can be converted to a constant hash value for quick look-ups.
+# keys for dictionaries have to be immutable types to ensure key can be 
+# converted to a constant hash value for quick look-ups.
 # immutable types include ints, float, string, tuples
 valid_dict = {100: "Very good", 90: "Good", 70: "Acceptable", 60: "Under average"}
 valid_dict = {3.14: "Pi"}
@@ -659,14 +660,14 @@ days_of_week.remove("Wed") # AttributeError
 
 ### Variables
 
-Variable in Python is a name that refers to a value. Python is dynamically typed which mean you don't need to declare the variable type explicitely.
+Variable in Python is a name that refers to a value. Python is dynamically typed which mean you don't need to declare the variable type explicitly.
 
 ```python
 # variable identifier must follow these rules
 # - must start with a letter [a-z A-Z] or an underscore `_`
 # - can be followed by letter, digits (0-9) or underscore `_`
 # - case-sensitive (e.g myVar and myvar are different variables)
-# - cannot be a reversed keyword (e.g if, while, for)
+# - cannot be a reversed keyword (e.g if, while, for, break, continue, pass)
 
 ########################
 # implicit declaration
@@ -691,17 +692,22 @@ product_ids = {"sku_01", "sku_02", "sku_01", "sku_03"}
 ########################
 # explicit declaration
 ########################
+# int
 age: int = 35
+# float
 pi: float = 3.14
+# str
 name: str = "Tuan"
+# bool
 sold_out: bool = True
 
 ########################
 # variable scope
-# local scope: variable declared inside a function are local to that function
-# enclosing scope: variable in the local scope of enclosing function (nonlocal)
-# global scope: variable declared at the top level of a script or module, or declared global using `global` keyword
-# built-in scope: variable preassigned in the built-in namespace (e.g., `len`, `range`)
+# - local scope: variable declared inside a function are local to that function
+# - enclosing scope: variable in the local scope of enclosing function (nonlocal)
+# - global scope: variable declared at the top level of a
+#   script or module, or declared global using `global` keyword
+# - built-in scope: variable preassigned in the built-in namespace (e.g., `len`, `range`)
 ########################
 # global variable
 age = 30
@@ -754,7 +760,8 @@ outer_func()
 
 ########################
 # dynamic typing and type checking
-# Python is dynamically typed, meaning that variable types are determined at runtime, variables can change type
+# Python is dynamically typed, meaning that variable types are 
+# determined at runtime, variables can change type
 ########################
 x = 10
 print(type(x)) # <class 'int'>
@@ -1084,7 +1091,9 @@ def args_func(name: str, /, age: int, *, address: str) -> None:
 
 # positional-only `/` always in front of keyword-only `*` arguments
 args_func('John', 30, address='New York') # Valid
-args_func(name = 'John', age = 30, 'New York') # invalid `name` keyword which should have value only, and `address` which should be here
+
+# invalid `name` keyword which should have value only, and `address` which should be here
+args_func(name = 'John', age = 30, 'New York')
 
 # defind a function explicitly
 def args_func(name: str, age: int) -> str:
@@ -1112,25 +1121,42 @@ args_func(value = 1011011, decimal = True)
 def console_log(**logs):
   print(logs)
 
-console_log(name="John", age=30, city="New York") # {'name': 'John', 'age': 30, 'city': 'New York'}
-console_log(company = "SpaceX", avg_salary = 5000) # {'company': 'SpaceX', 'avg_salary': 5000}
+# {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log(name="John", age=30, city="New York")
+
+# {'company': 'SpaceX', 'avg_salary': 5000}
+console_log(company = "SpaceX", avg_salary = 5000)
 
 # Arbitrary argument must comes after non-arbitrary argument
 def console_log(level = 'debug', **logs) -> None:
   print(f'{level}: {logs}')
 
-console_log(name="John", age=30, city="New York") # debug: {'name': 'John', 'age': 30, 'city': 'New York'}
-console_log('warning',name="John", age=30, city="New York") # warning: {'name': 'John', 'age': 30, 'city': 'New York'}
-console_log(level = 'error',name="John", age=30, city="New York") # error: {'name': 'John', 'age': 30, 'city': 'New York'}
-console_log(company = "SpaceX", avg_salary = 5000) # debug: {'company': 'SpaceX', 'avg_salary': 5000}
+# debug: {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log(name="John", age=30, city="New York")
+
+# warning: {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log('warning',name="John", age=30, city="New York")
+
+# error: {'name': 'John', 'age': 30, 'city': 'New York'}
+console_log(level = 'error',name="John", age=30, city="New York")
+
+# debug: {'company': 'SpaceX', 'avg_salary': 5000}
+console_log(company = "SpaceX", avg_salary = 5000)
 
 def console_log(message: str, level = 'debug', **logs) -> None:
   print(f'{level}: {message} ({logs})')
 
-console_log(message = "Something goes wrong", name="John", age=30, city="New York") # debug: Something goes wrong ({'name': 'John', 'age': 30, 'city': 'New York'})
-console_log('warning',name="John", age=30, city="New York") # debug: warning ({'name': 'John', 'age': 30, 'city': 'New York'})
-console_log(level = 'error', message = "Something goes wrong", name="John", age=30, city="New York") # error: Something goes wrong ({'name': 'John', 'age': 30, 'city': 'New York'})
-console_log("Something goes wrong", company = "SpaceX", avg_salary = 5000) # debug: Something goes wrong ({'company': 'SpaceX', 'avg_salary': 5000})
+# debug: Something goes wrong ({'name': 'John', 'age': 30, 'city': 'New York'})
+console_log(message = "Something goes wrong", name="John", age=30, city="New York")
+
+# debug: warning ({'name': 'John', 'age': 30, 'city': 'New York'})
+console_log('warning',name="John", age=30, city="New York")
+
+# error: Something goes wrong ({'name': 'John', 'age': 30, 'city': 'New York'})
+console_log(level = 'error', message = "Something goes wrong", name="John", age=30, city="New York")
+
+# debug: Something goes wrong ({'company': 'SpaceX', 'avg_salary': 5000})
+console_log("Something goes wrong", company = "SpaceX", avg_salary = 5000)
 
 # if you try to but arbitrary argument in front of non-arbitrary arguments
 # it will raise SyntaxError: arguments cannot follow var-keyword argument
