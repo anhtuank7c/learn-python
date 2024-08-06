@@ -426,7 +426,12 @@ len(("Tuan", True)) # 2
 
 book = ("Harry Porter", 2002, "Published")
 author = ("JK Rowling", 1965, "Female", "England")
+
+# joining tuples using concatenation `+` operator
 book_author = book + author # ('Harry Porter', 2002, 'Published', 'JK Rowling', 1965, 'Female', 'England')
+# or `sum()` function
+new_tuple_two = sum((book, author), ()) # ('Harry Porter', 2002, 'Published', 'JK Rowling', 1965, 'Female', 'England')
+
 book[:2] # ('Harry Porter', 2002)
 book[:-1] # ('Harry Porter',)
 book[::2] # ('Harry Porter', 'Published')
@@ -434,8 +439,15 @@ book[2:] # ('Published',)
 book[1:2] # (2002,)
 "England" in author # True
 
-# You cannot extend a tuple
+# You cannot extend a tuple directly
 author.extend(book) # AttributeError: 'tuple' object has no attribute 'extend'
+# you need to cast to list and cast back to tuple after merged
+author_list = list(author)
+book_list = list(book)
+
+author_list.extend(book_list)
+new_tuple = tuple(author_list)
+print(new_tuple) # ('JK Rowling', 1965, 'Female', 'England', 'Harry Porter', 2002, 'Published')
 
 # Unpack tuples into variables
 name, published_year, status = book
