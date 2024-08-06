@@ -1283,6 +1283,89 @@ print(list(double_result))
 # [2, 6, 10, 14, 18]
 ```
 
+#### closures functions
+
+A closure is a function object that remembers values in enclosing scopes even if they are not present in memory. Closures can capture an carry some variables from the outer function to the inner function.
+
+This can be useful for creating function factories or function decorators.
+
+How closures works?
+1. Nested Function
+  A function defined inside another function
+2. Free variables
+  Variables from the outer scope that the inner function can reference
+3. Returning the Inner Function
+  The outer function returns the inner function, which captures the state of the outer function's variables
+
+```python
+def outer_function(name: str):
+  def inner_function():
+    print(f'Hello {name}')
+  return inner_function
+
+# create a closure
+closure = outer_function('Tuan')
+closure()
+
+# another example
+def outer_function():
+  count: int = 0
+  def inner_function():
+    nonlocal count
+    count += 1
+    print(count)
+  return inner_function
+
+# create a closure
+closure = outer_function()
+closure() # 1
+closure() # 2
+closure() # 3
+```
+
+Closures are useful for creating functions with some preset configurations.
+
+```python
+def make_multiplier(multiplier: int):
+  def multiplier_func(input: int) -> int:
+    return input * multiplier
+  return multiplier_func
+
+# create multiplier functions
+double = make_multiplier(2)
+triple = make_multiplier(3)
+quad = make_multiplier(4)
+
+print(double(5)) # 10
+print(double(8)) # 16
+
+print(triple(5)) # 15
+print(triple(8)) # 24
+
+print(quad(5)) # 20
+print(quad(8)) # 32
+```
+
+Key points about closures
+
+* State Retention: Closures retain the state of the variables in the outer function's scope
+* Encapsulation: Closures can encapsulate functionality and data together
+* Function Factories: Closures are ofent used to craete functions with specific behaviors preset
+
+Avoiding common pitfalls
+
+1. Mutable variable: be cautious with mutable variables in closures as they can lead to unexpected behaviors
+2. Late binding: Python uses late binding for closures, meaning the values of variables are looked up when the inner function is called.
+  This can cause issues if the variable values change after the closure is created. You can avoid this by using default arguments:
+
+```python
+def outer_func(numbers):
+  return [lambda x, n = n: x + n for n in numbers]
+
+closures = outer_func([1, 2, 3])
+print([func(2) for func in closures]) # [3, 4, 5]
+```
+
 ### Modules
 
 A Python module is a file containing Python code. It can define functions, classes and include runnable code.
