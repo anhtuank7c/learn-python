@@ -768,6 +768,12 @@ name: str = "Tuan"
 # bool
 sold_out: bool = True
 
+# use `id()` function to find the variable address on memory
+print(id(age)) # 4357660072
+print(id(pi)) # 4342525072
+print(id(name)) # 4344113520
+print(id(sold_out)) # 4356703696
+
 ########################
 # variable scope
 # - local scope: variable declared inside a function are local to that function
