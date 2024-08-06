@@ -1536,3 +1536,61 @@ print(math.add(1, 2))
 ```
 
 ### Classes
+
+Python is an Object Oriented Programming language.
+
+Almost everything in Python is an object with its properties and methods.
+
+A class is like an object constructor or a blueprint for creating objects.
+
+#### Creating a class
+
+To create a class, use `class` keyword
+
+```python
+# order.py
+class Order:
+  id: str = "000000" # A class attribute. It is shared by all instances of this class
+  amount: float = 0.0 # A class attribute. It is shared by all instances of this class
+
+  # basic initializer, this is called when this class is instantiated.
+  # methods (or objects or attributes) like: __init__, __str__, __repr__ etc... are called
+  # special methods (sometime called dunder methods)
+  # you should not invent such names on your own
+  def __init__(self, id):
+    # assign the argument to the instance's id attribute
+    self.id = id
+    # the leading underscore indicate the `status` property
+    # is intended to be used internally
+    # do not rely on this to be enforced: it's a hint to other devs
+    self._status = 0
+  
+  # an instance method
+  # all method take `self` as the first argument
+  def place(self, amount:float, address: str) -> None:
+    self.amount = amount
+    print(f'Placed order {self.id}, {amount}, {address}')
+  
+  # a class method is shared among all instances
+  # they are called with the calling class as the first argument
+  @classmethod
+  def get_id(cls):
+    return cls.id
+
+  # a static method is called without a class or instance reference
+  @staticmethod
+  def payment_method():
+    return "Paypal"
+
+# main.py
+from order import Order
+
+first_order = Order("000001")
+first_order.place(10.0, "123 Main St") # Placed order 000001, 10.0, 123 Main St
+# invoke class method
+first_order.get_id() # 000000
+
+# invoke static method
+print(first_order.payment_method()) # Paypal
+print(Order.payment_method()) # Paypal
+```
