@@ -1283,7 +1283,7 @@ print(list(double_result))
 # [2, 6, 10, 14, 18]
 ```
 
-#### closures functions
+#### Closures functions
 
 A closure is a function object that remembers values in enclosing scopes even if they are not present in memory. Closures can capture an carry some variables from the outer function to the inner function.
 
@@ -1364,6 +1364,51 @@ def outer_func(numbers):
 
 closures = outer_func([1, 2, 3])
 print([func(2) for func in closures]) # [3, 4, 5]
+```
+
+Real world examples of closures
+
+```python
+from enum import Enum
+
+class LogLevel(Enum):
+  DEBUG = "DEBUG"
+  INFO = "INFO"
+  ERROR = "ERROR"
+
+def create_logger(level: LogLevel):
+  def logger(message: str):
+    print(f"[{level.value}] {message}")
+  return logger
+
+info_logger = create_logger(LogLevel.INFO)
+error_logger = create_logger(LogLevel.ERROR)
+
+info_logger('Something goes wrong') # [INFO] Something goes wrong
+info_logger('Eiusmod mollit proident mollit laboris duis qui ut sint.') # [INFO] Eiusmod mollit proident mollit laboris duis qui ut sint.
+
+error_logger('Something goes wrong') # [ERROR] Something goes wrong
+```
+
+Simple caching mechanism to store previously computed values
+
+```python
+def cache_func(func):
+  cache = {}
+  def wrapper(n):
+    if n not in cache:
+      cache[n] = func(n)
+    return cache[n]
+  return wrapper
+
+@cache_func
+def fibonacci(n):
+  if n < 2:
+    return n
+  return fibonacci(n - 1) + fibonacci(n - 2)
+
+print(fibonacci(10)) # 55
+print(fibonacci(23)) # 28657
 ```
 
 ### Modules
