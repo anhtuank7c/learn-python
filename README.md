@@ -658,6 +658,73 @@ days_of_week.add("Wed") # AttributeError
 days_of_week.remove("Wed") # AttributeError
 ```
 
+#### Enum (Enumeration)
+
+Enum is a symbolic name for a set of values. Enum is immutable which means some case you might want to use Enum as Constants (Python have no Constant)
+
+Enum are used to create readable names for a collection of related constants and make the code more readable and maintainable. Python's enum module provides the `Enum` class for creating enuimarations.
+
+```python
+# define an Enum TransactionState
+from enum import Enum
+
+class TransactionState(Enum):
+  PENDING = 0
+  PROCESSING = 1
+  COMPLETED = 2
+  FAILED = 3
+  REFUNDED = 4
+
+print(TransactionState.COMPLETED.name) # COMPLETED
+print(TransactionState.COMPLETED.value) # 4
+
+# using Enum in Conditional statement
+if transaction_result == TransactionState.COMPLETED:
+  print("Transaction completed")
+elif transaction_result == TransactionState.PENDING:
+  print("Transaction pending")
+else:
+  print("Transaction in other state")
+
+# loop over Enum
+for state in TransactionState:
+  print(state)
+
+class Theme(Enum):
+  DARK = "dark"
+  LIGHT = "light"
+
+# auto assign value use `auto()` from enum module
+from enum import Enum, auto
+
+class Theme(Enum):
+  DARK = auto()
+  LIGHT = auto()
+
+for theme in Theme:
+  print(theme.value) # 1, 2
+
+# output: will be auto-assigned starting from 1
+# 1
+# 2
+
+# enum with method
+from enum import Enum, auto
+
+class Theme(Enum):
+    DARK = auto()
+    LIGHT = auto()
+
+    def is_light(self):
+        return self in {Theme.LIGHT}
+
+print(Theme.LIGHT.is_light()) # True
+print(Theme.DARK.is_light()) # False
+
+# enum is immutable, which means you cannot reassign value to Enum
+Theme.LIGHT.value = 123 # AttributeError: <enum 'Enum'> cannot set attribute 'value'
+```
+
 ### Variables
 
 Variable in Python is a name that refers to a value. Python is dynamically typed which mean you don't need to declare the variable type explicitly.
