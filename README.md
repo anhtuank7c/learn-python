@@ -1601,7 +1601,8 @@ class Order:
   def status(self):
     return self._status
 
-  # this allows the property to be set
+  # this allows the @property to be set
+  # `status` is the @property that we define from above
   @status.setter
   def status(self, status):
     self._status = status
@@ -1691,6 +1692,14 @@ class Student(Person):
   def name(self):
     return f'{self.first_name} {self.last_name}'
 
+  @name.setter
+  def name(self, name: str):
+    arr = name.split(" ")
+    first_name = arr[0] if len(arr) >= 1 else "default_fname"
+    last_name = arr[1] if len(arr) >= 2 else "default_lname"
+    self.first_name = first_name
+    self.last_name = last_name
+
   def welcome(self):
     print(f'Welcome {self.name} to the class {self.class_name}')
 
@@ -1700,5 +1709,7 @@ class Student(Person):
 student_tuan = Student(first_name = "Anton", last_name = "Nguyen", class_name = "A3")
 # invoke method from parent class
 student_tuan.say_my_name() # Hi Anton Nguyen
-student_tuan.welcome() # Welcome Anton Student Nguyen to the class A3
+student_tuan.welcome() # Welcome Anton Nguyen to the class A3
+student_tuan.name = "Kim Phuong"
+student_tuan.welcome() # Welcome Kim Phuong to the class A3
 ```
