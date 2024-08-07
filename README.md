@@ -397,6 +397,23 @@ print(categories) # ['Blog', 'Service']
 print(rest) # [['Post 01', 'Post 02']]
 print(authors) # ['Author 01', 'Author 02']
 
+# sorting a list is a common behavior in real-life
+salaries = [123.02, 3423.13, 34543, 945, 100, 8833.5]
+
+salaries.sort()  # default ascending sort
+print(salaries)  # [100, 123.02, 945, 3423.13, 8833.5, 34543]
+
+salaries.sort(reverse=True)
+print(salaries)  # [34543, 8833.5, 3423.13, 945, 123.02, 100]
+
+names = ["John", "Corey", "Adam", "Steve", "Rick", "Thomas"]
+
+names.sort()
+print(names) # ['Adam', 'Corey', 'John', 'Rick', 'Steve', 'Thomas']
+
+names.sort(reverse=True)
+print(names) # ['Thomas', 'Steve', 'Rick', 'John', 'Corey', 'Adam']
+
 # check type
 type(list_mixed) # <class 'list'>
 ```
