@@ -4,6 +4,7 @@ I use this repo to track all the lessons I learned about python
 
 ## Reference documents
 
+* https://www.geeksforgeeks.org/python-programming-language-tutorial
 * https://www.w3schools.com/python/default.asp
 * https://learnxinyminutes.com/docs/python/
 * https://docs.python.org/3/tutorial/index.html
@@ -1846,6 +1847,148 @@ Python use naming conventions to indicate the intended level of access:
     obj = SubClass()
     obj.access_protected()
    ```
+
+#### Abstract class
+
+An abstract class can be considered a blueprint for other classes. It allows you to create a set of methods that must be created within any child classes built from the abstract class.
+
+A class that contains one or more abstract methods is called an **abstract class**. An abstract method is a method that has a delcaration but does not have an implementation.
+
+We use abstract class while we are designing large functional units or when we want to provide a common interface for different implementations of a component.
+
+##### Abstract base classes
+
+By defining an abstract base class, you can define a common **Application Program Interface** (**API**) for a set of subclasses.
+
+By default, Python does not provide abstract classes. Python comes with a module that provides the base for defining **Abstract Base Classes** (**ABC**) and that module name **ABC**.
+
+* Example 01
+
+  ```python
+  from abc import ABC, abstractmethod
+
+  class Polygon(ABC):
+    # abstract method will be force to be implement in subclasses
+    @abstractmethod
+    def noofsides(self):
+      pass
+
+  class Triangle(Polygon):
+    # must concrete implement abstract method
+    def noofsides(self):
+      print("I have 3 sides")
+
+  class Pentagon(Polygon):
+    # must concrete implement abstract method
+    def noofsides(self):
+      print("I have 5 sides")
+
+  class Hexagon(Polygon):
+    # must concrete implement abstract method
+    def noofsides(self):
+      print("I have 6 sides")
+
+  triangle = Triangle()
+  triangle.noofsides()
+
+  pentagon = Pentagon()
+  pentagon.noofsides()
+
+  hexagon = Hexagon()
+  hexagon.noofsides()
+  ```
+
+* Example 02
+
+  ```python
+  from abc import ABC, abstractmethod
+
+  class Record(ABC):
+    @abstractmethod
+    def __str__(self) -> str:
+      pass
+
+    @abstractmethod
+    def create(self) -> bool:
+      pass
+
+    @abstractmethod
+    def update(self, *args) -> bool:
+      pass
+
+    @abstractmethod
+    def delete(self) -> bool:
+      pass
+
+    @staticmethod
+    @abstractmethod
+    def TAG():
+      pass
+
+  class UserRecord(Record):
+    def __init__(self, name: str, bod: str, avatar: str) -> None:
+      self.name = name
+      self.bod = bod
+      self.avatar = avatar
+
+
+    def __str__(self) -> str:
+      return f"[{UserRecord.TAG()}]: {self.name} {self.bod} {self.avatar}"
+
+    def create(self) -> bool:
+      # execute sql command to create user
+      return True
+
+    def update(self, *args) -> bool:
+      # execute sql command to update user
+      return True
+
+    def delete(self) -> bool:
+      # execute sql command to delete user
+      return True
+
+    @staticmethod
+    def TAG():
+      return "USER"
+
+  class ProductRecord(Record):
+    def __init__(self, name: str, price: float, description: str) -> None:
+      self.name = name
+      self.price = price
+      self.description = description
+
+    def __str__(self) -> str:
+      return f"[{ProductRecord.TAG()}] {self.name} {self.price} {self.description}"
+
+    def create(self) -> bool:
+      # execute sql command to create product
+      return True
+
+    def update(self, *args) -> bool:
+      # execute sql command to update product
+      return True
+
+    def delete(self) -> bool:
+      # execute sql command to delete product
+      return True
+
+    @staticmethod
+    def TAG():
+      return "PRODUCT"
+
+  user_record = UserRecord("John", "1990-01-01", "https://example.com/avatar.jpg")
+  print(user_record) # [USER]: John 1990-01-01 https://example.com/avatar.jpg
+  user_record.create()
+  user_record.update("Johny", "1991-01-01", "https://example.com/avatar2.jpg")
+  user_record.delete()
+  print(UserRecord.TAG()) # USER
+
+  product_record = ProductRecord("iPhone", 1000, "A new phone")
+  print(product_record) # [PRODUCT] iPhone 1000 A new phone
+  product_record.create()
+  product_record.delete()
+  print(ProductRecord.TAG()) # PRODUCT
+  ```
 
 ### Polymorphism
 
