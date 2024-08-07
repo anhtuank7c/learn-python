@@ -1094,6 +1094,32 @@ days_of_week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 days_iterator = iter(days_of_week)
 list(days_iterator) # ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 list(days_iterator) # [] because state is saved
+
+# create custom iterator
+# to create an object/class as an iterator, you have to implement
+# the method `__iter__()` and `__next__()`
+# `__iter__()` method acts similar, you can do operations but must always return the iterator object itself
+# `__next__()` method also allows you to do operations, and must return the next item in the sequence
+class MyNumbers:
+  def __iter__(self):
+    self.a = 1
+    return self
+
+  def __next__(self):
+    if self.a <= 3:
+      x = self.a
+      self.a += 1
+      return x
+    else:
+      raise StopIteration
+
+my_class = MyNumbers()
+my_iterator = iter(my_class)
+
+print(next(my_iterator)) # 1
+print(next(my_iterator)) # 2
+print(next(my_iterator)) # 3
+print(next(my_iterator)) # raise StopIteration
 ```
 
 #### Control Statements within Loops
