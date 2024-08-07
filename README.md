@@ -1556,7 +1556,6 @@ class Order:
   # basic initializer, this is called when this class is instantiated.
   # methods (or objects or attributes) like: __init__, __str__, __repr__ etc... are called
   # special methods (sometime called dunder methods)
-  # you should not invent such names on your own
   def __init__(self, id):
     # assign the argument to the instance's id attribute
     self.id = id
@@ -1565,8 +1564,21 @@ class Order:
     # do not rely on this to be enforced: it's a hint to other devs
     self._status = 0
   
+  # `__repr__` method is intended to provide a "representation" of the object
+  # that is useful for debugging and development purposes. 
+  def __repr__(self):
+    return f'{}'
+
+  # `__str__` method, on the other hand, is intended to provide a "string" 
+  # representation of the object that is more user-friendly and suitable
+  # for display to end users
+  def __str__(self):
+    return f"Order {self.id}, amount: {self.amount}, status: {self.status}"
+
   # an instance method
   # all method take `self` as the first argument
+  # `self` parameter is a reference to the current instance of the class, 
+  # and is used to access variables that belongs to the class
   def place(self, amount:float, address: str) -> None:
     self.amount = amount
     print(f'Placed order {self.id}, {amount}, {address}')
@@ -1582,15 +1594,111 @@ class Order:
   def payment_method():
     return "Paypal"
 
+  # property is just like a getter
+  # it turns the method status() into a read-only attribute of the same name
+  # there's no need to write trivial getters and setters in Python
+  @property
+  def status(self):
+    return self._status
+
+  # this allows the property to be set
+  @status.setter
+  def status(self, status):
+    self._status = status
+
+  # this allows the property to be deleted
+  @status.deleter
+  def status(self):
+    del self._status
+  
+  # when a Python interpreter reads a source file it executes all its code.
+  # this __name__ check makes sure this code block is only executed when
+  # this module is the main program
+  if __name__ == "__main__":
+    # Instantiate a class
+    instance = Order(id = "000001")
+    instance.place(1.99, "123 Sub St")
+
 # main.py
 from order import Order
 
 first_order = Order("000001")
-first_order.place(10.0, "123 Main St") # Placed order 000001, 10.0, 123 Main St
+
+# reassign value of object property
+first_order.amount = 200.123
+
+# get object property
+print(first_order.amount)
+# invoke property (getter)
+print(first_order.status)
+# assigning properter (setter)
+first_order.status = 1
+
+# delete property from object
+del first_order.amount
+del first_order.status
+
+# delete object
+del first_order
+
 # invoke class method
+first_order.place(10.0, "123 Main St") # Placed order 000001, 10.0, 123 Main St
 first_order.get_id() # 000000
 
-# invoke static method
+# invoke static method via instance
 print(first_order.payment_method()) # Paypal
+
+# invoke static method via class name
 print(Order.payment_method()) # Paypal
+```
+
+#### Inheritance
+
+Inheritance allows us to define a class that inherits all the methods and properties from another class.
+
+**Parent class** is the class being inherited from, also called base class
+
+**Child class** is the class that inherites from **Parent class**, also called derived class
+
+```python
+# Parent class
+class Person:
+  def __init__(self, *, first_name: str, last_name: str):
+    self.first_name = first_name
+    self.last_name = last_name
+  
+  def __str__(self):
+    return f'{self.first_name} {self.last_name}'
+
+  def say_my_name(self):
+    print(f'Hi {self.first_name} {self.last_name}')
+
+tuan = Person(first_name = "Tuan", last_name = "Nguyen")
+tuan.say_my_name() # Hi Tuan Nguyen
+
+# Child class
+class Student(Person):
+  def __init__(self, *, first_name: str, last_name: str, class_name: str):
+    # call parent's `__init__` function to keep inheritance
+    Person.__init__(self, first_name = first_name, last_name = last_name)
+    # or use `super()` function which have the same result but look nicer
+    super().__init__(first_name = first_name, last_name = last_name)
+
+    # child class property
+    self.class_name = class_name
+
+  @property
+  def name(self):
+    return f'{self.first_name} {self.last_name}'
+
+  def welcome(self):
+    print(f'Welcome {self.name} to the class {self.class_name}')
+
+  def __str__(self):
+    return f'[{self.class_name}]: {self.first_name} {self.last_name}'
+
+student_tuan = Student(first_name = "Anton", last_name = "Nguyen", class_name = "A3")
+# invoke method from parent class
+student_tuan.say_my_name() # Hi Anton Nguyen
+student_tuan.welcome() # Welcome Anton Student Nguyen to the class A3
 ```
