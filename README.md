@@ -1488,6 +1488,14 @@ Simply create a file with a `.py` extension.
 ```python
 # transaction.py
 
+# variable in modules
+mock = {
+  "tranId": "random_id",
+  "amount": 0.0,
+  "tax": 0.0,
+  "address": "123 Sub St",
+}
+
 def add(amount: int, tax: float, address: str) -> str:
   return f'tranId: random_id, {amount =}, {tax =}, {address =}'
 
@@ -1502,6 +1510,7 @@ To use a module, import it into your script using the `import` statement
 ```python
 import transaction
 
+print(transaction.mock) # {'tranId': 'random_id', 'amount': 0.0, 'tax': 0.0, 'address': '123 Sub St'}
 print(transaction.add(10, 20.0, "nowhere"))
 print(transaction.update("011010", 10, 20.0, "nowhere"))
 ```
@@ -1579,6 +1588,20 @@ def add(a: int, b: int) -> int:
 import math # this is math.py because it have higher priority
 
 print(math.add(1, 2))
+```
+
+#### Built-in modules
+
+There are several built-in modules in Python, which you can import whenever you like, you can find them in here: https://docs.python.org/3/py-modindex.html
+
+```python
+import platform
+import math
+import io
+
+print(platform.system())
+print(math.sqrt(12))
+print(io.open("contacts.txt").readline())
 ```
 
 ### Classes
@@ -1760,7 +1783,7 @@ student_tuan.name = "Kim Phuong"
 student_tuan.welcome() # Welcome Kim Phuong to the class A3
 ```
 
-#### Class access control
+#### Access Modifiers
 
 Python supports a form of access control for class properties and methods, although it does so in a more informal way compared to some other languages like Java or C++.
 
@@ -1811,9 +1834,10 @@ Python use naming conventions to indicate the intended level of access:
     obj.access_protected()
 
     # example 02
-    # we still able to access private attributes and methods but will breaks the encapsulation principle
-    # by using mangled name
-    # Not recommended to use this way.
+    # Python doesn't block access to private data, it just leaves for the wisdom of the programmer, 
+    # not to write any code that access it from outside the class. 
+    # You can still access the private attributes/methods by Python's name mangling technique 
+    # but will breaks the encapsulation principle so not recommend to do this in real-life
     class SubClass(MyClass):
       def access_protected(self):
         print(self._MyClass__private_var) # I am protected
