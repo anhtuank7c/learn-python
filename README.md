@@ -174,6 +174,9 @@ print("Multiple\nline\n\tstring")
 # line
 #     string
 
+# trim whitespace from lead and tail
+"    this is a string with spacing         ".strip() # this is a string with spacing
+
 # casting data using `str()` method
 str(123) # <class 'str'>
 str(123.123) # <class 'str'>
