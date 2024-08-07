@@ -1822,3 +1822,89 @@ Python use naming conventions to indicate the intended level of access:
     obj = SubClass()
     obj.access_protected()
    ```
+
+### Polymorphism
+
+Polymorphism means **many forms**, and in programming it refers to methods/functions/operators with the same name that can be executed on many object or classes.
+
+#### Function polymorphism
+
+`len()` is one of many function polymorphism in Python that accept many kind of data
+
+```python
+# str
+len("Tuan") # 4
+
+# tuple
+len(("apple", "banana", "cherry")) # 3
+
+# list
+len(["apple", "banana", "cherry"]) # 3
+
+# dict
+len({"foo": "bar"}) # 1
+```
+
+#### Class polymorphism
+
+Polymorphism is often used in Class methods, where we can have multiple classes with the same method name.
+
+```python
+# polymorphism method `eat()` appear to all classes
+
+class Dog:
+  def __init__(self, name: str):
+    self.name = name
+  
+  def eat(self):
+    print('Dog is eating')
+
+class Cat:
+  def __init__(self, name: str, age: int):
+    self.name = name
+    self.age = age
+
+  def eat(self):
+    print('Cat is eating')
+
+dog = Dog("Grant")
+dog.eat() # Dog is eating
+
+cat = Cat("Banana", 3)
+cat.eat() # Cat is eating
+```
+
+#### Inheritance Class Polymorphism
+
+Yes, we could do that
+
+```python
+class Animal:
+  def __init__(self, name: str):
+    self.name = name
+  
+  def eat(self):
+    print('Animal is eating')
+
+class Dog(Animal):
+  def __init__(self, name: str, age: int):
+    super().__init__(name)
+    self.age = age
+
+  def eat(self):
+    print('Dog is eating')
+
+class Cat(Animal):
+  def __init__(self, name: str, age: int):
+    super().__init__(name)
+    self.age = age
+
+  def eat(self):
+    print('Cat is eating')
+
+dog = Dog("Grant", 5)
+dog.eat() # Dog is eating
+
+cat = Cat("Banana", 3)
+cat.eat() # Cat is eating
+```
