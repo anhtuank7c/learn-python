@@ -1759,3 +1759,66 @@ student_tuan.welcome() # Welcome Anton Nguyen to the class A3
 student_tuan.name = "Kim Phuong"
 student_tuan.welcome() # Welcome Kim Phuong to the class A3
 ```
+
+#### Class access control
+
+Python supports a form of access control for class properties and methods, although it does so in a more informal way compared to some other languages like Java or C++.
+
+Python use naming conventions to indicate the intended level of access:
+
+1. **Public**: Public attributes and methods are accessible from anywhere. By default, all attributes and methods are public.
+   ```python
+    class MyClass:
+      def __init__(self):
+        self.public_var = "I am public"
+      def public_method(self):
+        print("this is a public method")
+    obj = MyClass()
+    print(obj.public_var) # I am public
+    obj.public_method() # this is a public method
+   ```
+2. **Protected**: Protected attributes and methods are indicated by a single underscore prefix `_`. These are intended to be accessible within the class and its subclasses but not from outside the class.
+   ```python
+    class MyClass:
+      def __init__(self):
+        self._protected_var = "I am protected"
+      def _protected_method(self):
+        print("this is a protected method")
+    
+    class SubClass(MyClass):
+      def access_protected(self):
+        print(self._protected_var) # I am protected
+        self._protected_method() # this is a protected method
+    
+    obj = SubClass()
+    obj.access_protected()
+   ```
+3. **Private**: Private attributes and methods are indicated by a double underscore prefix `__`. This triggers name mangling, where the attribute name is modified to include the class name, making it harder (but not impossible) to access from outside the class.
+   ```python
+   # example 01
+    class MyClass:
+      def __init__(self):
+        self.__private_var = "I am private"
+      def __private_method(self):
+        print("this is a private method")
+
+    class SubClass(MyClass):
+      def access_protected(self):
+        print(self.__private_var) # raise AttributeError
+        self.__private_method() # raise AttributeError
+    
+    obj = SubClass()
+    obj.access_protected()
+
+    # example 02
+    # we still able to access private attributes and methods but will breaks the encapsulation principle
+    # by using mangled name
+    # Not recommended to use this way.
+    class SubClass(MyClass):
+      def access_protected(self):
+        print(self._MyClass__private_var) # I am protected
+        self._MyClass__private_method() # this is a protected method
+    
+    obj = SubClass()
+    obj.access_protected()
+   ```
