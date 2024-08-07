@@ -1620,8 +1620,9 @@ To create a class, use `class` keyword
 ```python
 # order.py
 class Order:
-  id: str = "000000" # A class attribute. It is shared by all instances of this class
-  amount: float = 0.0 # A class attribute. It is shared by all instances of this class
+
+  # A class attribute. It is shared by all instances of this class
+  TAG: str = "ORDER"
 
   # basic initializer, this is called when this class is instantiated.
   # methods (or objects or attributes) like: __init__, __str__, __repr__ etc... are called
@@ -1637,7 +1638,7 @@ class Order:
   # `__repr__` method is intended to provide a "representation" of the object
   # that is useful for debugging and development purposes. 
   def __repr__(self):
-    return f'{}'
+    return f'{self.id = }, {self.amount = }, {self.status = }'
 
   # `__str__` method, on the other hand, is intended to provide a "string" 
   # representation of the object that is more user-friendly and suitable
@@ -1686,14 +1687,18 @@ class Order:
   # this __name__ check makes sure this code block is only executed when
   # this module is the main program
   if __name__ == "__main__":
-    # Instantiate a class
-    instance = Order(id = "000001")
-    instance.place(1.99, "123 Sub St")
+    print("Hello from main")
 
 # main.py
 from order import Order
 
 first_order = Order("000001")
+
+# access class attribute
+first_order.TAG # ORDER
+
+# modify class attribute
+first_order.TAG = "USER"
 
 # reassign value of object property
 first_order.amount = 200.123
@@ -1722,6 +1727,23 @@ print(first_order.payment_method()) # Paypal
 # invoke static method via class name
 print(Order.payment_method()) # Paypal
 ```
+
+#### Static attributes
+
+Static attributes also known as **class attributes**, in Python **can be modified** because they are simply variables with the class object rather than with instances of the class.
+
+In Python, variables do not have inherent immutability, their mutability is determinded by the type of the object they refer to. Static attributes and modifiable both through the class itself and through its instance
+
+In Python, immutability is not enforced on **attributes** or **variables**. Instead, it's a characteristic of the data types:
+
+* **Immutable types**: int, float, str, tuple etc...
+* **Mutable types**: list, dict, set, etc...
+
+When a static attribute refers to a mutable object, changes to the object will be reflected wherever the reference is accessed. If the static attribute itself is reassigned, it affects instance because they all refer to the same class attribute.
+
+To ensure static attribute are immutable we have one possible way:
+
+1. Convention: Use naming conventions to indicate that an attribute should not be modified (e.g STATIC_ATTRIBUTE, TAG, UPPERCASE_VARIABLE)
 
 #### Inheritance
 
