@@ -1304,6 +1304,107 @@ shipping("Halong Bay, Quang Ninh, Vietnam")
 shipping(address = "Halong Bay, Quang Ninh, Vietnam")
 ```
 
+#### Decorators
+
+Decorators are very powerful and useful tool in Python since it allows programmers to modify the behavior of a function or class.
+
+Decorators allow us to wrap another function in order to extend the behaviour of the wrapped function without permanently modifying it. But before deep into decorators let us understand some concepts that will come in handy in learning the decorators.
+
+**First Class Object**
+
+In Python, functions are **[first class object](https://www.geeksforgeeks.org/first-class-functions-python/)** which means that functions in Python can be used or passed as arguments
+
+Properties of first class functions:
+
+- A function is an instance of the Object type
+- You can store the function in a variable
+- You can pass the function as a parameter to another function
+- You can return the function from a function
+- You can store them in data structures such as hash tables, lists ...
+
+Consider the below examples for better understanding
+
+Example 01: Treating the functions as objects
+
+```python
+def shout(text: str) -> str:
+  return text.upper()
+
+# we assign function shout to a variable. This will not invoke the function instead it
+# takes the function object referenced by a shout abd creates a second name pointing to it `yell`
+yell = shout
+
+print(yell('Hello')) # HELLO
+```
+
+Example 02: Passing the function as an argument
+
+```python
+from typing import Callable
+
+def shout(text: str) -> str:
+  return text.upper()
+
+def whisper(text: str) -> str:
+  return text.lower()
+
+def greet(func: Callable[[str], str]) -> None:
+  # storing the function in a variable
+  greeting = func('Hi, I am created by a function passed as an argument')
+  print(greeting)
+
+greet(shout) # HI, I AM CREATED BY A FUNCTION PASSED AS AN ARGUMENT
+greet(whisper) # hi, i am created by a function passed as an argument
+```
+
+In the above example, the greet function takes another function as a parameter (shout and whisper in this case). The function passed as an argument is then called inside the function greet.
+
+Example 03: write your first decorator
+
+```python
+def logger(func):
+  def wrapper(*args, **kwargs):
+    print(f"Calling {func.__name__}: {func.__code__.co_argcount}")
+    func(*args, **kwargs)
+  return wrapper
+
+def another_func(x: int, y: int) -> int:
+  return x + y
+
+# we can pass func as a parameter as usual but it's doesn't convenient
+another_func = logger(another_func)
+another_func(1, 2) # Calling another_func: 2
+
+# we can use decorator like this
+# convenient and easy to read
+@logger
+def my_func(x: int, y: int) -> int:
+  return x + y
+
+my_func(1, 2) # Calling my_func: 2
+```
+
+Example 4: make decorator function return data
+
+```python
+from functools import wraps
+
+def start_end_decorator(func):
+  @wraps(func)
+  def wrapper(*args, **kwargs):
+    print('start')
+    result = func(*args, **kwargs)
+    print('end')
+    return result
+  return wrapper
+
+@start_end_decorator
+def hello(name: str):
+  return f'Hello {name}'
+
+print(hello("Tuan"))
+```
+
 #### Lambda/anonymous functions
 
 An anonymous function in Python is a function without a name. It can be immediately invoked or stored in a variable.
