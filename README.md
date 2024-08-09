@@ -1534,17 +1534,19 @@ class CartItem:
 from functools import wraps
 from cart_item import CartItem
 from product import Product
+from typing import Callable, TypeVar
 
-def extract_product(func):
+T = TypeVar("T", bound=Callable[[Product], Product])
+
+# decorator function receive CartItem and return Product
+def extract_product(func: T) -> Callable[[CartItem], Product]:
   @wraps(func)
-  def wrapper(cart_item, *args, **kwargs):
-    if not isinstance(cart_item, CartItem):
-      raise ValueError('cart_item must be instance of CartItem')
-    if not hasattr(cart_item, 'product_id'):
-      raise ValueError('cart_item must have product_id attribute')
-    if not hasattr(cart_item, 'quantity'):
-      raise ValueError('cart_item must have quantity attribute')
-    product = Product(cart_item.product_id, 'fake_name', 0.0)
+  def wrapper(cart_item: CartItem, *args, **kwargs) -> Product:
+    if not hasattr(cart_item, "product_id"):
+      raise ValueError("cart_item must have product_id attribute")
+    if not hasattr(cart_item, "quantity"):
+      raise ValueError("cart_item must have quantity attribute")
+    product = Product(cart_item.product_id, "fake_name", 0.0)
     return func(product, *args, **kwargs)
   return wrapper
 
