@@ -1405,6 +1405,168 @@ def hello(name: str):
 print(hello("Tuan"))
 ```
 
+**Chaining Decorator** means decorating a function with multiple decorators
+
+```python
+from functools import wraps
+
+def logger(func):
+  @wraps(func)
+  def wrapper(*args, **kwargs):
+    print('logger start')
+    result = func(*args, **kwargs)
+    print('logger end')
+    return result
+  return wrapper
+
+def acl(func):
+  @wraps(func)
+  def wrapper(*args, **kwargs):
+    print('check permission, valid, continue')
+    result = func(*args, **kwargs)
+    print('after check permission')
+    return result
+  return wrapper
+
+@logger
+@acl
+def add_transaction(amount: float, reason: str):
+  print(f'{amount =}, {reason =}')
+  return "random_transaction_id"
+
+add_transaction(120.123, "Test")
+
+# logger start
+# check permission, valid, continue
+# amount =120.123, reason ='Test'
+# after check permission
+# logger end
+```
+
+**Decorator and classes**
+
+Example 01: inject decorators function to class methods
+
+```python
+# tracking.py
+from functools import wraps
+
+def tracking(func):
+
+  @wraps(func)
+  def wrapper(self, *args, **kwargs):
+    # call the original func
+    result = func(self, *args, **kwargs)
+    print(f'[{func.__name__}]: items in cart of "{self.user_id}": {len(self.items)}')
+    return result
+  return wrapper
+
+# cart_item.py
+class CartItem:
+  def __init__(self, product_id: str, quantity: int) -> None:
+    self.product_id = product_id
+    self.quantity = quantity
+
+# shopping_cart.py
+from cart_item import CartItem
+from typing import List
+from utils.tracking import tracking
+
+class ShoppingCart:
+  def __init__(self, user_id: str) -> None:
+    self.user_id = user_id
+    self.items: List[CartItem] = []
+  
+  @tracking
+  def add_item(self, item: CartItem) -> None:
+    self.items.append(item)
+    print(f'Added item {item.product_id} to cart of user {self.user_id}')
+
+  @tracking
+  def remove_item(self, item: CartItem) -> None:
+    self.items.remove(item)
+    print(f'Removed item {item.product_id} from cart of user {self.user_id}')
+
+  @tracking
+  def checkout(self):
+    print(f'Checking out {len(self.items)}')
+    self.items.clear()
+
+# main.py
+from cart_item import CartItem
+from shopping_cart import ShoppingCart
+
+cart = ShoppingCart("user_01")
+cart_item_1 = CartItem("sku_01", 2)
+cart_item_2 = CartItem("sku_02", 5)
+cart.add_item(cart_item_1)
+cart.add_item(cart_item_2)
+cart.remove_item(cart_item_1)
+cart.checkout()
+
+# Added item sku_01 to cart of user user_01
+# [add_item]: items in cart of "user_01": 1
+# Added item sku_02 to cart of user user_01
+# [add_item]: items in cart of "user_01": 2
+# Removed item sku_01 from cart of user user_01
+# [remove_item]: items in cart of "user_01": 1
+# Checking out 1
+# [checkout]: items in cart of "user_01": 0
+```
+
+Example 02: use decorator to manipulate function result
+
+```python
+# product.py
+class Product:
+  def __init__(self, id: str, name:str, price: float) -> None:
+    self.id = id
+    self.name = name
+    self.price = price
+
+# cart_item.py
+class CartItem:
+  def __init__(self, product_id: str, quantity: int) -> None:
+    self.product_id = product_id
+    self.quantity = quantity
+
+# utils.py
+from functools import wraps
+from cart_item import CartItem
+from product import Product
+
+def extract_product(func):
+  @wraps(func)
+  def wrapper(cart_item, *args, **kwargs):
+    if not isinstance(cart_item, CartItem):
+      raise ValueError('cart_item must be instance of CartItem')
+    if not hasattr(cart_item, 'product_id'):
+      raise ValueError('cart_item must have product_id attribute')
+    if not hasattr(cart_item, 'quantity'):
+      raise ValueError('cart_item must have quantity attribute')
+    product = Product(cart_item.product_id, 'fake_name', 0.0)
+    return func(product, *args, **kwargs)
+  return wrapper
+
+# main.py
+from cart_item import CartItem
+from product import Product
+from utils import extract_product
+
+cart = ShoppingCart("user_01")
+cart_item_1 = CartItem("sku_01", 2)
+cart_item_2 = CartItem("sku_02", 5)
+
+# return product object with decorator function
+@extract_product
+def process_checkout(product: Product):
+  print(f"Checking out product {product.id}")
+
+# passing cart_item object
+process_checkout(cart_item_1) # Checking out product sku_01
+process_checkout(cart_item_2) # Checking out product sku_02
+```
+
 #### Lambda/anonymous functions
 
 An anonymous function in Python is a function without a name. It can be immediately invoked or stored in a variable.
