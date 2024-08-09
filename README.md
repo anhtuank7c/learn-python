@@ -1390,6 +1390,8 @@ Example 4: make decorator function return data
 from functools import wraps
 
 def start_end_decorator(func):
+  # wraps ensures docstring, function name, arguments list, etc. are all copied
+  # to the wrapped function - instead of being replaced with wrapper's info
   @wraps(func)
   def wrapper(*args, **kwargs):
     print('start')
