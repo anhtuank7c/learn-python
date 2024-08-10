@@ -1571,6 +1571,87 @@ process_checkout(cart_item_1) # Checking out product sku_01
 process_checkout(cart_item_2) # Checking out product sku_02
 ```
 
+#### Generators
+
+Generators are defined using the `yield` keyword. When a generator function is called, it returns a generator object, but the function's code is not actually run until you iterate over the generator (e.g for loop).
+
+Each time `yield` is encountered, the function's state is saved, and the yielded value is returned. The function can then be resumed from where it left off when the next value is requested.
+
+```python
+def simple_generator():
+  print('first yield')
+  yield 1
+  print('second yield')
+  yield 2
+  print('third yield')
+  yield 3
+
+# using generator
+gen = simple_generator()
+
+print(f'received {next(gen)}')
+print(f'received {next(gen)}')
+print(f'received {next(gen)}')
+print(f'received {next(gen)}')
+```
+
+Explain example from above:
+
+1. first call `next(gen)`
+  * print first yield
+  * encountered `yield 1`, pausese and return 1 to the caller
+  * the state of the generator is saved right after `yield 1`
+2. second call `next(gen)`
+  * the generator resume from where it pauseed, after `yield 1`
+  * print second yield
+  * encountered `yield 2`, pausese and return 2 to the caller
+  * the state of the generator is saved right after `yield 2`
+3. third call `next(gen)`
+  * the generator resume from where it pauseed, after `yield 2`
+  * print third yield
+  * encountered `yield 3`, pausese and return 2 to the caller
+  * the state of the generator is saved right after `yield 3`
+4. fourth call `next(gen)`
+  * there is nothing left in the generator so it will raise StopIteration exception
+
+**Key points about yield**
+
+* State preservation: Unlike a regular function call, when you call a generator, the state of the function is preserved between **yield** statements, allowing the function to continue where it left off.
+* Lazy evaluation: The generator does not compute all its values at once. Instead, it generates each value on-the-fly when requested, which can save memory
+* Return vs Yield: While return exist a function completely, yield pause the function, allow it to resume later
+
+Generators are memory-efficient because they only load the data needed to process the next value in the iterable. This allows them to perform operations on otherwise prohibitively large value rangs.
+
+Note: `range` replaces `xrange` in Python 3
+
+```python
+def fibonacci_generator(limit: int):
+  a, b = 0, 1
+  while a < limit:
+    yield a
+    a, b = b, a + 1
+
+for number in fibonacci_generator(10):
+  print(number)
+```
+
+Benefit of generators
+
+* Memory Efficiency: Generators are memory-efficient since they produre items once at a time and do not store the entire sequence in memory
+* Lazy Evaluation: Generators allow for lazy evalation, meaning values are computed as needed, which is useful when working with large datasets or infinite sequences.
+* Simplified Code: Generators can simplify code by eliminating the need for complex iterator logic
+
+```python
+# reading large file with generator
+def read_large_file(path: str):
+  with open(path, 'r') as file:
+    for line in file:
+      yield line.strip()
+
+for contact in read_large_file('contacts.txt'):
+  print(contact)
+```
+
 #### Lambda/anonymous functions
 
 An anonymous function in Python is a function without a name. It can be immediately invoked or stored in a variable.
