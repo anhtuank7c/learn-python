@@ -1008,13 +1008,13 @@ def switch_case(value):
     case 2:
       return "Case 2"
     case 3 | 4:
-      return "Case 3 and 4"
+      return "Case 3 or 4"
     case _:
       return "Default case"
 
 print(switch_case(1))  # Case 1
-print(switch_case(3))  # Case 3 and 4
-print(switch_case(4))  # Case 3 and 4
+print(switch_case(3))  # Case 3 or 4
+print(switch_case(4))  # Case 3 or 4
 print(switch_case(5))  # Default case
 
 ```
@@ -1703,6 +1703,7 @@ A closure is a function object that remembers values in enclosing scopes even if
 This can be useful for creating function factories or function decorators.
 
 How closures works?
+
 1. Nested Function
   A function defined inside another function
 2. Free variables
