@@ -2596,3 +2596,16 @@ except InsufficientBalanceError as e:
 
 # Error: Your balance is not enough for checkout
 ```
+
+#### Several built-in Python exceptions that can be raised when an error occurs during the execution of a program.
+
+* SyntaxError: raised when the interpreter encouters a syntax error in the code, such as a misspelled keyword, a missing colon, or an unbalanced parenthesis.
+* TypeError: raised when an operation or function is applied to an object of the wrong type, such as adding a string to an integer.
+* NameError: raised when a variable or function name is not found in the current scope
+* IndexError: raised when an index is out of range for a list, tuple, or other sequence types
+* KeyError: raised when a key is not found in a dictionary
+* ValueError: raised when a function or method is called with an invalid argument or input, such as trying to convert a string to an integer when the string does not represent a valid integer
+* AttributeError: raised when an attribute or method is not found on an object, such as trying to access a non-existent attribute of a class instance
+* IOError: raised when an I/O operation, such as reading or writing a file, fails due to an input/output error
+* ZeroDivisionError: raised when an attempt is made to divide a number by zero
+* ImportError: raised when an import statement fails to find or load a module
