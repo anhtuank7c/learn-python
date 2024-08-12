@@ -2445,3 +2445,37 @@ dog.eat() # Dog is eating
 cat = Cat("Banana", 3)
 cat.eat() # Cat is eating
 ```
+
+#### Data classes
+
+[This module](https://docs.python.org/3/library/dataclasses.html) provides a decorator and functions for automatically adding generated special methods such ash `__init__` and `__repr()__` to user-defined classes.
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class InventoryItem:
+  """Class for keeping track of an item in inventory"""
+  name: str
+  unit_price: float
+  quantity_on_hand: int = 0
+
+  def total_cost(self) -> float:
+    return self.unit_price * self.quantity_on_hand
+
+inventory_product_one = InventoryItem("Product name 01", 1.99, 1000)
+print(inventory_product_one) # InventoryItem(name='Product name 01', unit_price=1.99, quantity_on_hand=1000)
+inventory_product_two = InventoryItem("Product name 01", 1.99, 1000)
+
+if inventory_product_one == inventory_product_two: # True
+  print("2 product are the same")
+```
+
+So we don't need to add an `__init__()` method like this
+
+```python
+def __init__(self, name: str, unit_price: float, quantity_on_hand: int = 0):
+  self.name = name
+  self.unit_price = unit_price
+  self.quantity_on_hand = quantity_on_hand
+```
