@@ -2460,11 +2460,13 @@ class InventoryItem:
   unit_price: float
   quantity_on_hand: int = 0
 
+  @property
   def total_cost(self) -> float:
     return self.unit_price * self.quantity_on_hand
 
 inventory_product_one = InventoryItem("Product name 01", 1.99, 1000)
 print(inventory_product_one) # InventoryItem(name='Product name 01', unit_price=1.99, quantity_on_hand=1000)
+print(inventory_product_one.total_cost) # 1990.0
 inventory_product_two = InventoryItem("Product name 01", 1.99, 1000)
 
 if inventory_product_one == inventory_product_two: # True
