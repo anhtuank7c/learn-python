@@ -2451,21 +2451,25 @@ cat.eat() # Cat is eating
 [This module](https://docs.python.org/3/library/dataclasses.html) provides a decorator and functions for automatically adding generated special methods such ash `__init__` and `__repr()__` to user-defined classes.
 
 ```python
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class InventoryItem:
   """Class for keeping track of an item in inventory"""
   name: str
-  unit_price: float
+  # if the default value of a field is specified by a call to `field()`, then the class attribute
+  # for this field will be replaced by the specified `default` value.
+  # if `default` is not provided, the the class attribute will be deleted
+  unit_price: float = field(repr = False, default = 0.0)
   quantity_on_hand: int = 0
+  source: str = field(repr = True, default = "global")
 
   @property
   def total_cost(self) -> float:
     return self.unit_price * self.quantity_on_hand
 
 inventory_product_one = InventoryItem("Product name 01", 1.99, 1000)
-print(inventory_product_one) # InventoryItem(name='Product name 01', unit_price=1.99, quantity_on_hand=1000)
+print(inventory_product_one) # InventoryItem(name='Product name 01', quantity_on_hand=1000, source='global')
 print(inventory_product_one.total_cost) # 1990.0
 inventory_product_two = InventoryItem("Product name 01", 1.99, 1000)
 
