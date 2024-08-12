@@ -2610,3 +2610,82 @@ except InsufficientBalanceError as e:
 * IOError: raised when an I/O operation, such as reading or writing a file, fails due to an input/output error
 * ZeroDivisionError: raised when an attempt is made to divide a number by zero
 * ImportError: raised when an import statement fails to find or load a module
+
+### Some useful built-in functions in Python
+
+#### filter()
+
+The `filter()` method filters the given sequence with the help of a function that tests each element in the sequence (sequence included: `sets, lists, tuple and containers of any iterators) to be true or not
+
+`filter()` will return an iterator that is already filtered
+
+```python
+# filter with custom function
+def filter_high_salary(salary: float) -> bool:
+  return salary > 30_000_000.0
+
+# filter a list
+list_salary = [10_000_000.0, 15_000_000.0, 25_000_000.0, 50_000_000.0, 120_000_000.0]
+
+high_salary = filter(filter_high_salary, list_salary)
+
+for salary in high_salary:
+  print(f'high salary: {salary}')
+# high salary: 50000000.0
+# high salary: 120000000.0
+
+# filter with lambda
+high_salary = filter(lambda salary: salary > 30_000_000.0, list_salary)
+
+# flter with lambda and custom function
+high_salary = filter(lambda salary: filter_high_salary(salary), list_salary)
+
+# filter a tuple
+person = ("Tuan Nguyen", 35, "Male", "Halong Bay, Quang Ninh, Vietnam")
+
+filtered_int_only = filter(lambda x: isinstance(x, int), person)
+
+print(list(filtered_int_only)) # [35]
+
+# filter a set
+points = (88, 58, 67, 88, 45, 100, 95, 40, 20, 78, 78)
+good_points = filter(lambda point: point >= 80, points)
+print(list(good_points)) # [88, 88, 100, 95]
+
+# filter an iterable
+from typing import Dict, Iterator, Callable
+
+# Define the type for the student data
+StudentInfo = Dict[str, Dict[str, int | str]]
+
+students: StudentInfo = {
+  "STD001": {
+    "name": "Tuan Nguyen",
+    "age": 20
+  },
+  "STD002": {
+    "name": "Anton",
+    "age": 18
+  },
+  "STD003": {
+    "name": "Jimmy",
+    "age": 22
+  }
+}
+
+student_iterators = iter(students)
+
+def filter_by_age(key: str) -> bool:
+  age = students[key]["age"]
+  if isinstance(age, int):
+    return age > 20
+  return False
+
+filtered_students: Iterator[str] = filter(filter_by_age, student_iterators)
+
+# Convert the filtered students to a dictionary
+filtered_students_dict: StudentInfo = {key: students[key] for key in filtered_students}
+
+# Print the filtered students
+print(filtered_students_dict)
+```
