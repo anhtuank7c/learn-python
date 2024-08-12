@@ -2597,7 +2597,7 @@ except InsufficientBalanceError as e:
 # Error: Your balance is not enough for checkout
 ```
 
-#### Several built-in Python exceptions that can be raised when an error occurs during the execution of a program.
+#### Several built-in Python exceptions that can be raised when an error occurs during the execution of a program
 
 * SyntaxError: raised when the interpreter encouters a syntax error in the code, such as a misspelled keyword, a missing colon, or an unbalanced parenthesis.
 * TypeError: raised when an operation or function is applied to an object of the wrong type, such as adding a string to an integer.
