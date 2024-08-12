@@ -2485,3 +2485,114 @@ def __init__(self, name: str, unit_price: float, quantity_on_hand: int = 0):
   self.unit_price = unit_price
   self.quantity_on_hand = quantity_on_hand
 ```
+
+### Exception handling
+
+Exception handling in Python is a mechanism that allows you to handle errors or exceptional situation in your code gracefully, instead of letting the entire program cash. Python provides a robust and flexible way to handle exceptions using the `try`, `except`, `else` and `finally` blocks.
+
+#### Basic structure of exception handling
+
+The basic structure looks like this
+
+```python
+try:
+  result = 1 + non_exist_variable
+except NameError as e:
+  print(e)
+else:
+  print("successful operation")
+finally:
+  print("cleanup operation")
+```
+
+**Explanation**
+
+1. try Block:
+  * The code that yoy want to execute and that might raise an exception in placed inside the try block
+2. except Block: 
+  * If an excetion occurs in the `try` block, the code in the except block is executed. You can catch specific exceptions by specifying the exception type (e.g `except NameError`)
+  * The `as e` part allows you to capture the exception object and access its message or other attributes
+3. else Block:
+  * The `else` block is optional and is executed only if no exception was raised in the `try` block
+4. finally Block:
+  * The `finally` block is also optional and is executed regardless of whether an exception occurded or not. This is typically used for cleanup operations like closing files or releasing resources, closing database connection.
+
+#### Handling specific exception
+
+**Here's an example where we handle different types of exception**
+
+```python
+def divide_number(a, b):
+  try:
+    result = a / b
+  except ZeroDivisionError as e:
+    print(f"Error: {e} - Division by zero is not allowed")
+  except TypeError as e:
+    print(f"Error: {e} - Only numbers are allowed")
+  else:
+    print(f"Result: {result}")
+  finally:
+    print("Execution of the divide_number function is completed")
+
+divide_number(10, 0)
+# Error: division by zero - Division by zero is not allowed
+# Execution of the divide_number function is completed
+
+divide_number(10, "a")
+# Error: unsupported operand type(s) for /: 'int' and 'str' - Only numbers are allowed
+# Execution of the divide_number function is completed
+
+divide_number(10, 2)  
+# Result: 5.0
+# Execution of the divide_number function is completed
+```
+
+**Handle multiple exceptions**
+
+```python
+try:
+  risky_operation()
+except (ValueError, TypeError) as e:
+  print(f"Error: {e}")
+```
+
+#### Raising exceptions
+
+Sometime you might want to raise an exception manually using the `raise` keyword
+
+```python
+def check_age(age):
+  if age < 0:
+    raise ValueError("Age cannot be negative")
+  return f"Age is {age}"
+
+try:
+  check_age(-1)
+except ValueError as e:
+  print(f"Exception '{e}'")
+
+# Exception 'Age cannot be negative'
+```
+
+#### Custom exceptions
+
+You can define your own exceptions by creating a new class that inherits from Python's built-in **Exception** class
+
+```python
+class InsufficientBalanceError(Exception):
+  pass
+
+def checkout(total: float, balance: float) -> bool:
+  if balance < 0:
+    raise InsufficientBalanceError("Negative balance is not allowed")
+  if balance < total:
+    raise InsufficientBalanceError("Your balance is not enough for checkout")
+  return balance >= total
+
+try:
+  checkout(29.9, 10)
+except InsufficientBalanceError as e:
+  print(f'Error: {e}')
+
+# Error: Your balance is not enough for checkout
+```
