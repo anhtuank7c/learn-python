@@ -2692,5 +2692,10 @@ print(filtered_students_dict)
 
 ### Multiprocessing
 
-[Read more](./docs/multiprocessing/README.md)
+Multiprocessing refers to the ability of a system to support more than one processor at the same time. Application in a multiprocessing system are broken to smaller routines that run independently. The operating system allocates these threads to the processors improving performance of the system.
 
+![single process](./docs/multiprocessing/chef.png)
+
+![multi processes](./docs/multiprocessing/multi-chef.png)
+
+[Read more](./docs/multiprocessing/README.md)
