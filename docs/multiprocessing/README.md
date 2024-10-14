@@ -10,12 +10,16 @@
 
 - Consider a computer system with a single processor. If it is assigned several processes at the same time, it will have to interrupt each task and switch briefly to another, to keep all the processes going. This situation is just like a chef workin in a kitchen alone. He has to do several tasks like baking, stirring kneading dough, etc. So the gist is that: The more tasks you must do at once, the more difficult it gets to keep track of them all, and keeping the timing right becomes more of a challenge. This is where the concept of mutiprocessing arise!
 
-### A multiprocessing system can have:
+![single-task](./chef.png)
+
+### A multiprocessing system can have
 
 1. multiprocessor: ie a computer with more than one CPU (some server computer support more than one CPU such dual Xeon CPU)
 2. multi-core processor: ie a single computing component with two or more independant actual processing units (called cores, a Xeon CPU can have 28 to 36 cores per CPU)
 
 Here the CPU can easily executes several tasks at once, with each task using it own processor. It is just like the chef in last situation being assisted by his assistants. Now, they can divide the tasks among themself and chef doesn't need to switch between his tasks.
+
+![multi-tasks](./multi-chef.png)
 
 ## Example
 
@@ -186,3 +190,13 @@ if __name__ == "__main__":
 Consider the diagram below to understand how new processes are different from main Python script
 
 ![multiprocessing](./multiprocessing.png)
+
+## The 4 Essential Parts of Multiprocessing in Python
+
+Multiprocessing in Python involes several key components that allow efficient parallel execution of tasks:
+
+* **Process**: The Process class is used to create and manage independent processes. Each process runs in its own memory space
+* **Queue**: The Queue class is a shared job queue that allows process-safe data exchange and coordination between processes. It's used for passing messages or results between process instances.
+* **Pipe**: Pipes provide a way to establish a communication channel between processes. They are useful for bidirectional communication between two processes.
+* **Lock**: Locks are used to ensure that only process is executing a certain section of code at a time. This prevents data corruption by synchronizing access to shared resources.
+
