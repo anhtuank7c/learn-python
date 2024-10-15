@@ -22,13 +22,14 @@ def consumer(queue: "Queue[Any]", parent_conn: PipeConnection, lock: LockType):
 
 
 if __name__ == "__main__":
-    queue: "Queue[Any]" = Queue()  # for exchange data between processes safely
-    lock: LockType = (
-        Lock()
-    )  # For synchronization (ensures only one process can access at a time)
-    parent_conn, child_conn = (
-        Pipe()
-    )  # Pipe for two-way communications between processes
+    # for exchange data between processes safely
+    queue: "Queue[Any]" = Queue()
+
+    # For synchronization (ensures only one process can access at a time)
+    lock: LockType = Lock()
+
+    # Pipe for two-way communications between processes
+    parent_conn, child_conn = Pipe()
 
     # create separate processes
 
