@@ -1521,7 +1521,22 @@ Example 02: use decorator to manipulate function result
 ```python
 # product.py
 class Product:
+  """
+  Product class
+  Use multiple lines comment to annotate the class
+  """
   def __init__(self, id: str, name:str, price: float) -> None:
+    """
+    init an instance
+
+    Parameters:
+      id: str
+      name: str
+      price: float
+
+    Returns:
+      None
+    """
     self.id = id
     self.name = name
     self.price = price
