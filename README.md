@@ -26,7 +26,21 @@ I use this repo to track all the lessons I learned about python
 Multiple
 line
 comment
+This kind of comment very helpful in comment in class and method
+Scroll to Class section to read more
 """
+def func_name(name: str, age: int) -> None:
+  """
+  func_name which print a string
+
+  Parameters:
+    name: str
+    age: int
+  
+  Returns:
+    None
+  """
+  print(f'Hello {name}, you are {age} age')
 ```
 
 ### Data types
