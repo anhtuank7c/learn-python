@@ -380,3 +380,156 @@ if __name__ == "__main__":
 # github.com: Scraped data in 10 seconds seconds
 # Done 
 ```
+
+
+## Advance section
+
+Multiprocessing support two types of communication channel between processes:
+
+* Queue: share data between multiple processes (slightly slow, multiple workers sending results to a single aggregator)
+* Pipe: share data between two processes only (fast, one process send data and another process receive)
+
+### Queue
+
+A simple way to communicate between processes, pass messages back and forth between many processes. Any Python object can pass through a Queue.
+
+Queue acts like FIFO (First In First Out), it useful when multiple processes need to share data. The mechanism is bidirection (multiple producers, multiple consumers).
+
+Queue is slow since it need to synchronize data internally to ensure any process can access.
+
+You don't need **Lock** with **Queue** since Queue is thread-safe (process safe). It mean Queue implement internal locking mechanism to manage concurrent access by multiple processes. So Queue automatically ensure **only one** process read from or write to queue at a time.
+
+You only need **Lock** when dealing with **shared resources** like modify shared variables, write the same file, printing to console (something that not inheritantly thread-safe)
+
+![Multiprocessing Queue diagram](./multiprocess-queue-diagram.png)
+
+Example 01: without `Lock`
+
+```python
+from multiprocessing import Queue, Process
+from typing import List
+
+"""
+Queue example without Lock since it is thread-safe
+"""
+
+def square_list(mylist: List[int], queue: "Queue[int]"):
+    for item in mylist:
+        # put data type int to queue
+        queue.put(item**2)
+
+
+def print_queue(queue: "Queue[int]"):
+    while not queue.empty():
+        print(queue.get())
+    print("Queue is now empty")
+
+
+if __name__ == "__main__":
+    queue: "Queue[int]" = Queue()
+    myList = [1, 4, 5, 6, 7, 4]
+    p1 = Process(target=square_list, args=(myList, queue))
+    p2 = Process(target=print_queue, args=(queue,))
+
+    # running process p1 to square the list
+    p1.start()
+    p1.join()
+
+    # running process p2 to get queue elements to print
+    p2.start()
+    p2.join()
+
+    print("All Done")
+
+# Result
+#
+# 1
+# 16
+# 25
+# 36
+# 49
+# 16
+# Queue is now empty
+# All Done
+```
+
+Example 02: with `Lock`
+
+```python
+from multiprocessing import Process, Queue, Lock
+from multiprocessing.synchronize import Lock as LockType
+import time
+from random import randint
+
+
+# Worker function that sends data to the Queue
+def worker_with_queue(queue: "Queue[int]", lock: LockType) -> None:
+    result = randint(1, 100)  # Simulate some work by generating a random number
+    time.sleep(randint(1, 3))  # Simulate task duration
+    queue.put(result)  # Send the result to the shared Queue
+
+    # Protect console output with Lock
+    with lock:
+        print(f"Worker {result} sent data to the queue.")
+
+
+# Aggregator function that collects results from the Queue
+def aggregator_with_queue(
+    queue: "Queue[int]", lock: LockType, num_workers: int
+) -> None:
+    results = []
+    for _ in range(num_workers):
+        result = queue.get()  # Collect results from the Queue
+        results.append(result)
+
+        # Protect console output with Lock
+        with lock:
+            print(f"Aggregator received {result} from the queue.")
+    print("Final aggregated results from Queue:", results)
+
+
+if __name__ == "__main__":
+    queue: "Queue[int]" = Queue()  # Queue is process-safe, no Lock needed
+    lock = Lock()  # Lock for protecting console output
+    num_workers = 3
+    processes = [
+        Process(target=worker_with_queue, args=(queue, lock))
+        for _ in range(num_workers)
+    ]
+
+    # Start all worker processes
+    for p in processes:
+        p.start()
+
+    # Start the aggregator to collect results
+    aggregator = Process(target=aggregator_with_queue, args=(queue, lock, num_workers))
+    aggregator.start()
+
+    # Wait for all processes to finish
+    for p in processes:
+        p.join()
+    aggregator.join()
+
+# Result
+#
+# Worker 38 sent data to the queue.
+# Aggregator received 38 from the queue.
+# Worker 38 sent data to the queue.
+# Aggregator received 38 from the queue.
+# Worker 77 sent data to the queue.
+# Aggregator received 77 from the queue.
+# Final aggregated results from Queue: [38, 38, 77]
+```
+
+### Pipe
+
+A pipe can have only two endpoints. Hence it is preffered over Queue when only two-way communication is required.
+
+Pipe acts like socket or direct channel between TWO processes. Useful when two process need to communicate directly, usually unindirectional but can be bidirection with two connections.
+
+Pipe is fast since it just communicate between TWO processes.
+
+![Multiprocessing Pipe diagram](./multiprocessing-pipe-diagram.png)
+
+```python
+```
