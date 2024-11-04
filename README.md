@@ -2530,9 +2530,9 @@ try:
 except NameError as e:
   print(e)
 else:
-  print("successful operation")
+  print("another error")
 finally:
-  print("cleanup operation")
+  print("finally - cleanup operation")
 ```
 
 **Explanation**
