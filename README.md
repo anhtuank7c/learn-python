@@ -2518,7 +2518,7 @@ def __init__(self, name: str, unit_price: float, quantity_on_hand: int = 0):
 
 ### Exception handling
 
-Exception handling in Python is a mechanism that allows you to handle errors or exceptional situation in your code gracefully, instead of letting the entire program cash. Python provides a robust and flexible way to handle exceptions using the `try`, `except`, `else` and `finally` blocks.
+Exception handling in Python is a mechanism that allows you to handle errors or exceptional situation in your code gracefully, instead of letting the entire program crash. Python provides a robust and flexible way to handle exceptions using the `try`, `except`, `else` and `finally` blocks.
 
 #### Basic structure of exception handling
 
